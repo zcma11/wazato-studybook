@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function leastInterval(tasks, n) {
+        const obj = tasks.reduce((total, curr) => {
+          if (total[curr]) {
+            total[curr]++
+          } else {
+            total[curr] = 1
+          }
+
+          return total
+        }, {})
+
+        const arr = Object.values(obj).sort((a, b) => b - a)
+
+        const max = arr[0]
+        n = n + 1
+
+        let maxCount = 0
+        for (; maxCount < n; maxCount++) {
+          if (arr[maxCount] !== max) {
+            break
+          }
+        }
+
+        return Math.max((max - 1) * n + maxCount, tasks.length)
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function partition(head, x) {
+        const before = new ListNode()
+        const after = new ListNode()
+
+        // 指针
+        let minStart = before
+        let maxStart = after
+
+        // 遍历
+        while (head) {
+          if (head.val < x) {
+            minStart = minStart.next = head
+          } else {
+            maxStart = maxStart.next = head
+          }
+
+          head = head.next
+        }
+
+        // 当没有小于x或者大于等于x的节点的时候，用另一个的开头
+        if (before.next == null) {
+          head = after.next
+        } else {
+          head = before.next
+        }
+
+        // 首尾衔接，并且清除尾巴
+        // 值得注意的是，当没有小于x的节点的时候，minStart赋值做不做都行
+        minStart.next = after.next
+        maxStart.next = null
+
+        return head
+      }
+    </script>
+  </body>
+</html>

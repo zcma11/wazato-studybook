@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var MyQueue = function () {
+        this.output = []
+        this.input = []
+      }
+
+      /**
+       * Push element x to the back of queue.
+       * @param {number} x
+       * @return {void}
+       */
+      MyQueue.prototype.push = function (x) {
+        if (this.output.length === 0) {
+          this.output.push(x)
+        } else {
+          this.input.push(x)
+        }
+      }
+
+      /**
+       * Removes the element from in front of queue and returns that element.
+       * @return {number}
+       */
+      MyQueue.prototype.pop = function () {
+        const res = this.output.pop()
+        while (this.input.length) {
+          this.output.push(this.input.pop())
+        }
+        const x = this.output.pop()
+        while (this.output.length) {
+          this.input.push(this.output.pop())
+        }
+
+        x && this.output.push(x)
+
+        return res
+      }
+
+      /**
+       * Get the front element.
+       * @return {number}
+       */
+       MyQueue.prototype.peek = function () {
+        return this.output[0]
+      }
+
+      /**
+       * Returns whether the queue is empty.
+       * @return {boolean}
+       */
+      MyQueue.prototype.empty = function () {
+        return !this.output.length && !this.input.length
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function calPoints(ops) {
+        let p = ops.reduce((total, curr, index) => {
+          switch (curr) {
+            case '+':
+              total.push(total[total.length - 1] + total[total.length - 2])
+              break
+            case 'D':
+              total.push(total[total.length - 1] * 2)
+              break
+            case 'C':
+              total.pop()
+              break
+            default:
+              total.push(+curr)
+              break
+          }
+          return total
+        }, [])
+
+        return p.reduce((a, b) => a + b, 0)
+      }
+
+      calPoints(['5', '2', 'C', 'D', '+'])
+    </script>
+  </body>
+</html>
