@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class MyCircularDeque {
+        constructor(k) {
+          this.queue = []
+          this.n = k
+          // 其实读数组的length也是可以的，我这里用了一个变量指着队列的结尾
+          this.i = 0
+        }
+
+        insertFront(value) {
+          if (this.isFull()) return false
+          this.i++
+          this.queue.unshift(value)
+          return true
+        }
+
+        insertLast(value) {
+          if (this.isFull()) return false
+          this.i++
+          this.queue.push(value)
+          return true
+        }
+
+        deleteFront() {
+          if (this.isEmpty()) return false
+          this.i--
+          this.queue.shift()
+          return true
+        }
+
+        deleteLast() {
+          if (this.isEmpty()) return false
+          this.i--
+          this.queue.pop()
+          return true
+        }
+
+        getFront() {
+          if (this.isEmpty()) return -1
+          return this.queue[0]
+        }
+
+        getRear() {
+          if (this.isEmpty()) return -1
+          return this.queue[this.i - 1]
+        }
+
+        isEmpty() {
+          return this.i === 0
+        }
+
+        isFull() {
+          return this.i === this.n
+        }
+      }
+    </script>
+  </body>
+</html>

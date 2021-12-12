@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class FrontMiddleBackQueue {
+        constructor() {
+          this.queue = []
+        }
+
+        pushFront(val) {
+          this.queue.unshift(val)
+        }
+
+        pushMiddle(val) {
+          let i = this.queue.length
+          if (i % 2 === 0) {
+            i = i / 2
+          } else {
+            i = i >> 1
+          }
+          // splice方法 是在 i 的位置插入，然后原本 i 上的数往后移
+          this.queue.splice(i, 0, val)
+        }
+
+        pushBack(val) {
+          this.queue.push(val)
+        }
+
+        popFront() {
+          if (this.queue.length === 0) return -1
+          return this.queue.shift()
+        }
+
+        popMiddle() {
+          if (this.queue.length === 0) return -1
+          let i = this.queue.length
+          if (i % 2 === 0) {
+            i = i / 2 - 1
+          } else {
+            i = i >> 1
+          }
+          return this.queue.splice(i, 1)[0]
+        }
+
+        popBack() {
+          if (this.queue.length === 0) return -1
+          return this.queue.pop()
+        }
+      }
+    </script>
+  </body>
+</html>

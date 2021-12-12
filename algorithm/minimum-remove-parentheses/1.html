@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      minRemoveToMakeValid('\)\)\(\(')
+      function minRemoveToMakeValid(s) {
+        const stack = []
+        s = s.split('')
+        for (let i = 0; i < s.length; i++) {
+          const ko = s[i]
+          if (ko === '(') {
+            stack.push(i)
+          } else if (ko === ')') {
+            if (stack.length > 0) {
+              stack.pop()
+            } else {
+              s[i] = '_'
+            }
+          }
+        }
+
+        for (let i = 0; i < stack.length; i++) {
+          s[stack[i]] = '_'
+        }
+
+        return s.filter(_ => _ != '_').join('')
+      }
+    </script>
+  </body>
+</html>

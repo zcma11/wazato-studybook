@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      removeOuterParentheses("(()())(())")
+      function removeOuterParentheses(s) {
+        const stack = []
+        const result = []
+        let temp = ''
+        for (let i = 0; i < s.length; i++) {
+          const ko = s[i]
+          if (ko === '(') {
+            stack.push(ko)
+            if (stack.length === 1) {
+              continue
+            }
+          }
+
+          if (ko === ')') {
+            const a = stack.pop()
+            if (stack.length === 0) {
+              result.push(temp)
+              temp = ''
+              continue
+            }
+          }
+
+          temp += ko
+        }
+
+        return result.reduce((a, b) => a + b)
+      }
+    </script>
+  </body>
+</html>
