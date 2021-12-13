@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function postorderTraversal(root) {
+        if (!root) return root
+
+        const result = []
+        const stack = []
+        let prev
+        while (root || stack.length) {
+          // 先拿到 left 的尽头， root会赋值为 null 所以这个只会
+          // 在right节点时使用
+          while (root) {
+            stack.push(root)
+            root = root.left
+          }
+
+          // 然后一层层退出
+          root = stack.pop()
+          if (!root.right || prev === root.right) {
+            result.push(root.val)
+            prev = root
+            // 这是细节
+            root = null
+          } else {
+            // 是还没遍历的 right 节点
+            stack.push(root)
+            root = root.right
+          }
+        }
+
+        return result
+      }
+    </script>
+  </body>
+</html>

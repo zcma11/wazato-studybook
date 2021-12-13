@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      calculate('1*2-3/4+5*6-7*8+9/10')
+      function calculate(s) {
+        const stack = []
+        const stack2 = []
+        let i = 0
+        let temp = ''
+        while (i <= s.length) {
+          const ko = s[i]
+          if (ko === ' ') {
+            i++
+            continue
+          }
+          if (+ko === +ko) {
+            temp += ko
+            i++
+            continue
+          }
+
+          stack.push(+temp)
+          temp = ''
+
+          switch (stack2[stack2.length - 1]) {
+            case '*': {
+              const n1 = stack.pop()
+              const n2 = stack.pop()
+              stack.push(parseInt(n1 * n2))
+              stack2.pop()
+              break
+            }
+            case '-':
+              stack.push(-stack.pop())
+              stack2.pop()
+              break
+            case '/': {
+              const n1 = stack.pop()
+              const n2 = stack.pop()
+              stack.push(parseInt(n2 / n1))
+              stack2.pop()
+              break
+            }
+          }
+          stack2.push(ko)
+          i++
+        }
+
+        return stack.reduce((a, b) => a + b, 0)
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 测试用例 [1, null, 2, 3] 能正常通过
+      function postorderTraversal(root) {
+        const stack = [root]
+        const stack2 = []
+
+        while (stack.length > 0) {
+          const left = root.left
+
+          if (left) {
+            stack.push(left)
+            root = left
+          } else {
+            const right = root.right
+            if (right) {
+              stack.push(right)
+              root = right
+            } else {
+              const lonely = stack.pop()
+              stack2.push(lonely.val)
+              root = stack[stack.length - 1]
+              while (lonely === root?.right || root) {
+                stack2.push(stack.pop().val)
+                root = stack[stack.length - 1]
+              }
+              if (!root) {
+                break
+              }
+            }
+          }
+        }
+
+        return stack2
+      }
+    </script>
+  </body>
+</html>
