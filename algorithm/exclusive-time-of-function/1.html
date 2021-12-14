@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      exclusiveTime(1, [
+        '0:start:0',
+        '0:start:2',
+        '0:end:5',
+        '0:start:6',
+        '0:end:6',
+        '0:end:7'
+      ])
+      function exclusiveTime(n, logs) {
+        const stack = []
+        const result = []
+        let time = 0
+        while (logs.length) {
+          const m = logs.shift()
+          let [id, status, _time] = m.split(':')
+          _time = +_time
+          const data = { id, status, time: 0 }
+          if (status === 'start') {
+            result.push(data)
+          }
+
+          const prev = stack[stack.length - 1]
+          if (!prev) {
+            stack.push(data)
+            time = _time
+            continue
+          }
+
+          if (status === 'start') {
+            prev.time = _time - time
+            time = _time
+            stack.push(data)
+          } else {
+            prev.time = prev.time + _time - time + 1
+            time = _time + 1
+            stack.pop()
+          }
+        }
+
+        const map = {}
+        for (let i = 0; i < result.length; i++) {
+          const m = result[i]
+          map[m.id] = map[m.id] + m.time || m.time
+        }
+        return Object.values(map)
+      }
+    </script>
+  </body>
+</html>
