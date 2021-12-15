@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function kthToLast(head, k) {
+        let node = head
+        // 这种是找到 node = null 为止，
+        // node不是尾节点
+        while(k) {
+            node = node.next
+            k--
+        }
+        
+        while(node) {
+            node = node.next
+            head = head.next
+        }
+        
+        return head.val
+    }
+  </script>
+</body>
+</html>

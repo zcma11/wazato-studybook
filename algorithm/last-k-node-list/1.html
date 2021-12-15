@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function getKthFromEnd(head, k) {
+        let node = head
+        // 这种是 node 是尾节点
+        while(k > 1) {
+            node = node.next
+        }
+        
+        while(node.next) {
+            node = node.next
+            head = head.next
+        }
+        
+        return head
+    }
+  </script>
+</body>
+</html>
