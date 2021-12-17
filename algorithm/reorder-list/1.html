@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Node(val, next) {
+        this.val = val
+        this.next = next
+      }
+
+      const a = new Node(1, new Node(2, new Node(3, new Node(4, null))))
+      console.log(reorderList(a))
+
+      function reorderList(head) {
+        let n1 = head,
+          n2 = head
+        while (n2 && n2.next) {
+          n1 = n1.next
+          n2 = n2.next.next
+        }
+
+        const mid = n1
+
+        n2 = mid.next
+        let n3 = n2
+        while (n3) {
+          n3 = n2.next
+          n2.next = n1
+          n1 = n2
+          n2 = n3
+        }
+
+        mid.next = null
+
+        n2 = head
+        while (n2 !== mid) {
+          n3 = n2.next
+          if (n1 === n3) {
+            break
+          }
+          n2.next = n1
+          const temp = n1.next
+          n2 = n1.next = n3
+          n1 = temp
+        }
+
+        return head
+      }
+    </script>
+  </body>
+</html>
