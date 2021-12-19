@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Node(val, next) {
+        this.val = val
+        this.next = next
+      }
+      function splitListToParts(head, k) {
+        let count = 0
+        let node = head
+        while (node) {
+          node = node.next
+          count++
+        }
+
+        node = head
+        const output = []
+        if (k >= count) {
+          for (let i = 0; i < k; i++) {
+            if (node) {
+              const temp = node.next
+              node.next = null
+              output.push(node)
+              node = temp
+            } else {
+              output.push(null)
+            }
+          }
+
+          return output
+        }
+
+        let n = (count / k) | 0
+        count = count % k
+
+        for (let i = 0; i < k; i++) {
+          head = node
+          for (let j = 0; j < n - 1; j++) {
+            node = node.next
+          }
+
+          if (count) {
+            node = node.next
+            count--
+          }
+          output.push(head)
+          head = node.next
+          node.next = null
+        }
+
+        return output
+      }
+    </script>
+
+    <script>
+      const a = new Node(1, new Node(2, new Node(3, new Node(4, new Node(5, new Node(6, new Node(7, new Node(8, new Node(9, new Node(10, null))))))))))
+      splitListToParts(a, 3)
+    </script>
+  </body>
+</html>

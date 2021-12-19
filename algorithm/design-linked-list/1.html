@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Node(val, next = null, prev = null) {
+        this.next = next
+        this.prev = prev
+        this.val = val
+      }
+
+      var MyLinkedList = function () {
+        this.length = 0
+        this.head = new Node('head')
+        this.tail = new Node('tail')
+        this.head.next = this.tail
+        this.tail.prev = this.next
+      }
+
+      /**
+       * @param {number} index
+       * @return {number}
+       */
+      MyLinkedList.prototype.get = function (index) {
+        if (this.length - 1 < index || index < 0) return -1
+
+        let node
+        if (this.length - index > this.length / 2) {
+          node = this.head.next
+          while (index > 0) {
+            node = node.next
+            index--
+          }
+        } else {
+          node = this.tail.prev
+          index = this.length - 1 - index
+          while (index > 0) {
+            node = node.prev
+            index--
+          }
+        }
+
+        return node.val
+      }
+
+      /**
+       * @param {number} val
+       * @return {void}
+       */
+
+      MyLinkedList.prototype.addAtHead = function (val) {
+        this.addAtIndex(0, val)
+      }
+
+      /**
+       * @param {number} val
+       * @return {void}
+       */
+      MyLinkedList.prototype.addAtTail = function (val) {
+        this.addAtIndex(this.length, val)
+      }
+
+      /**
+       * @param {number} index
+       * @param {number} val
+       * @return {void}
+       */
+      MyLinkedList.prototype.addAtIndex = function (index, val) {
+        if (index > this.length) return
+        let node
+        if (index <= 0) {
+          if (this.length === 0) {
+            this.head.next = new Node(val, this.head.next, this.head)
+            this.head.next.next.prev = this.head.next
+            this.length++
+            return
+          }
+          node = this.head.next
+        } else if (index === this.length) {
+          node = this.tail
+        } else {
+          if (this.length - index > this.length / 2) {
+            node = this.head.next
+            while (index > 0) {
+              node = node.next
+              index--
+            }
+          } else {
+            node = this.tail.prev
+            index = this.length - 1 - index
+            while (index > 0) {
+              node = node.prev
+              index--
+            }
+          }
+        }
+        node.prev = node.prev.next = new Node(val, node, node.prev)
+        this.length++
+      }
+
+      /**
+       * @param {number} index
+       * @return {void}
+       */
+      MyLinkedList.prototype.deleteAtIndex = function (index) {
+        if (this.length - 1 < index || index < 0) return -1
+
+        let node
+        if (this.length - index > this.length / 2) {
+          node = this.head.next
+          while (index > 0) {
+            node = node.next
+            index--
+          }
+        } else {
+          node = this.tail.prev
+          index = this.length - 1 - index
+          while (index > 0) {
+            node = node.prev
+            index--
+          }
+        }
+
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        this.length--
+      }
+
+      /**
+       * Your MyLinkedList object will be instantiated and called as such:
+       * var obj = new MyLinkedList()
+       * var param_1 = obj.get(index)
+       * obj.addAtHead(val)
+       * obj.addAtTail(val)
+       * obj.addAtIndex(index,val)
+       * obj.deleteAtIndex(index)
+       */
+    </script>
+
+    <script>
+      function test(fn, arg) {
+        const _this = new MyLinkedList()
+        fn.forEach((f, i) => {
+          console.log(_this[f](...arg[i]))
+        })
+        // var obj = new MyLinkedList()
+        // obj.addAtHead(1)
+        // obj.addAtTail(3)
+        // obj.addAtIndex(1, 2)
+        // var param_1 = obj.get(1)
+        // obj.deleteAtIndex(1)
+        // var param_2 = obj.get(1)
+        // console.log(param_1, param_2, obj)
+      }
+
+      test(
+        ['addAtIndex', 'addAtIndex', 'addAtIndex', 'get'],
+        [[0, 10], [0, 20], [1, 30], [0]]
+      )
+    </script>
+  </body>
+</html>
