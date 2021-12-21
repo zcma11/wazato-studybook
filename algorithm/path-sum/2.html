@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function hasPathSum(root, targetSum) {
+        if (!root) return false
+        const stack = [root]
+        const value = [root.val]
+        let i = 0
+        while (i < stack.length) {
+          const node = stack[i]
+          const val = value[i]
+          // const node = stack.shift()
+          // const val = value.shift()
+          i++
+          if (!node.left && !node.right) {
+            if (val === targetSum) {
+              return true
+            } else {
+              continue
+            }
+          }
+
+          if (node.left) {
+            stack.push(node.left)
+            value.push(node.left.val + val)
+          }
+
+          if (node.right) {
+            stack.push(node.right)
+            value.push(node.right.val + val)
+          }
+        }
+        return false
+      }
+    </script>
+  </body>
+</html>
