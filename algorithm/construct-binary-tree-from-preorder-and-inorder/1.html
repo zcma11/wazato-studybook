@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function buildTree(preorder, inorder) {
+        const map = {}
+        // 登记一遍中序的下标
+        for (let i = 0; i < inorder.length; i++) {
+          map[inorder[i]] = i
+        }
+        // 分为  根 左子树 右子树
+        //  左子树 根 右子树
+        const create = (
+          pre,
+          ino,
+          preStartIdx,
+          preEndIdx,
+          inoStartIdx,
+          inoEndIdx
+        ) => {
+          // 叶子节点时， left，right走着
+          if (inoEndIdx < inoStartIdx) {
+            return null
+          }
+
+          // 取出中序的根节点下标，左边就是左子树，右边是右子树
+          const rootIdx = map[pre[preStartIdx]]
+          const root = new TreeNode(pre[preStartIdx])
+          // 左子树的个数
+          const count = rootIdx - inoStartIdx
+
+          // 递归，通过缩小区间
+          root.left = create(
+            pre,
+            ino,
+            preStartIdx + 1,
+            preStartIdx + count,
+            inoStartIdx,
+            rootIdx - 1
+          )
+          root.right = create(
+            pre,
+            ino,
+            preStartIdx + count + 1,
+            preEndIdx,
+            rootIdx + 1,
+            inoEndIdx
+          )
+          return root
+        }
+
+        return create(
+          preorder,
+          inorder,
+          0,
+          inorder.length - 1,
+          0,
+          inorder.length - 1
+        )
+      }
+    </script>
+  </body>
+</html>
