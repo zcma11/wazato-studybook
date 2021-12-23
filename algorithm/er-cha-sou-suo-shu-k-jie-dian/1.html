@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function kthLargest(root, k) {
+    let val
+    function f(root) {
+        if (!root) {
+            return
+        }
+        f(root.right)
+        if (k === 0) return
+        if (--k === 0) val = root.val
+        f(root.left)
+    }
+
+    f(root)
+
+    return val
+};
+  </script>
+</body>
+</html>

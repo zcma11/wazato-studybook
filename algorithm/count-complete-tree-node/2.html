@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function countNodes(root) {
+        if (!root) return 0
+        let node = root
+        let leftCount = 0
+        while (node) {
+          leftCount++
+          node = node.left
+        }
+
+        node = root
+        let rightCount = 0
+        while (node) {
+          rightCount++
+          node = node.right
+        }
+
+        if (leftCount === rightCount) {
+          return Math.pow(2, leftCount) - 1
+        }
+
+        return 1 + countNodes(root.left) + countNodes(root.right)
+      }
+    </script>
+  </body>
+</html>
