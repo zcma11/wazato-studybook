@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 根有相机， 左边有相机，右边有相机，被监视
+       * 根有相机，左边有相机，右边有相机，被监视
+       * 根有相机，左边没相机，右边有相机，被监视
+       * 根有相机，左边没相机，右边没相机，被监视
+       * 根有相机， 左边有相机，右边有相机，不被监视
+       * 根有相机，左边有相机，右边有相机，不被监视
+       * 根有相机，左边没相机，右边有相机，不被监视
+       * 根有相机，左边没相机，右边没相机，不被监视
+       *
+       * 根没有相机，左边有相机，右边有相机，自己被上面监视
+       * 根没有相机，左边有相机，右边没相机，自己被监视
+       * 根没有相机，左边没相机，右边有相机，自己被监视
+       *
+       *
+       * 节点  根有没有相机变相等于根有没有监视孩子  自己有没有被上一层监视 一开始是 false
+       *
+       * 根有相机，节点没有相机，没有被监视
+       * 根有相机，节点有相机，被监视
+       * 根没有相机，节点没有相机，被监视
+       * 根没有相机，节点有相机，没有被监视
+       */
+
+      function TreeNode(val, left, right) {
+        this.val = val === undefined ? 0 : val
+        this.left = left === undefined ? null : left
+        this.right = right === undefined ? null : right
+      }
+
+      // const a = new TreeNode(
+      //   0,
+      //   new TreeNode(
+      //     1,
+      //     new TreeNode(
+      //       2,
+      //       new TreeNode(3, null, new TreeNode(4, null, null)),
+      //       null
+      //     ),
+      //     null
+      //   ),
+      //   null
+      // )
+      const a = new TreeNode(0, new TreeNode(1, null, null), new TreeNode(2, null, new TreeNode(3, null, null)))
+
+      let root = a
+      const stack = [root]
+      while (stack.length) {
+        root = stack.shift()
+        console.log(root)
+        root && (root.left || root.right) && stack.push(root.left, root.right)
+      }
+
+      /* 失败case 160超时 */
+      function minCameraCover(root) {
+        function min(root, hasCamera, isWatched) {
+          if (!root) {
+            return hasCamera ? Infinity : 0
+          }
+          if (!root.right && !root.left) {
+            return hasCamera || !isWatched ? 1 : 0
+          }
+          if (hasCamera) {
+            return (
+              1 +
+              Math.min(
+                min(root.left, false, true) + min(root.right, false, true),
+                min(root.left, false, true) + min(root.right, true, true),
+                min(root.left, true, true) + min(root.right, false, true)
+              )
+            )
+          } else {
+            return Math.min(
+              isWatched ? min(root.left, false, false) + min(root.right, false, false) : Infinity,
+              min(root.left, true, false) + min(root.right, true, false),
+              min(root.left, false, false) + min(root.right, true, false),
+              min(root.left, true, false) + min(root.right, false, false)
+            )
+          }
+        }
+
+        return Math.min(min(root, true, false), min(root, false, false))
+      }
+
+      console.log(minCameraCover(a))
+    </script>
+  </body>
+</html>
