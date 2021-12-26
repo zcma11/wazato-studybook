@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function widthOfBinaryTree(root) {
+        let stack = [{ node: root, i: 1 }]
+        let width = 1
+        while (stack.length) {
+          if (stack.length === 1) {
+            const { node } = stack[0]
+            if (!node.left && !node.right) break
+            if (!node.left || !node.right) {
+              const _ = stack[0]
+              _.node = node.left ?? node.right
+              _.i = 1
+              continue
+            }
+          }
+          width = Math.max(width, stack[stack.length - 1].i - stack[0].i + 1)
+          for (let i = stack.length; i > 0; i--) {
+            const { node, i: _i } = stack.shift()
+
+            if (node.left) {
+              stack.push({ node: node.left, i: 2 * _i })
+            }
+            if (node.right) {
+              stack.push({ node: node.right, i: 2 * _i + 1 })
+            }
+          }
+        }
+        return width
+      }
+    </script>
+  </body>
+</html>

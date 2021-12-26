@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function preorder(root, result = []) {
+        if (!root) return result
+        result.push(root.val)
+        if (root.children) {
+          root.children.forEach(child => preorder(child, result))
+        }
+        return result
+      }
+    </script>
+  </body>
+</html>

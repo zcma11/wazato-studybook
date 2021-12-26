@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function levelOrderBottom(root) {
+        if (!root) return []
+        let stack = [root]
+        const result = []
+
+        while (stack.length) {
+          const temp = []
+          for (let i = stack.length; i > 0; i--) {
+            const node = stack.shift()
+            temp.push(node.val)
+            node.left && stack.push(node.left)
+            node.right && stack.push(node.right)
+          }
+          result.unshift(temp)
+        }
+        return result
+      }
+    </script>
+  </body>
+</html>
