@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      lastStoneWeight([2,7,4,1,8,1])
+      function lastStoneWeight(stones) {
+        stones.sort((a, b) => a - b)
+        while (stones.length > 1) {
+          const a = stones.pop() ?? 0
+          const b = stones.pop() ?? 0
+          if (a - b > 0) {
+            stones.push(a - b)
+          }
+          let i = stones.length - 1
+          while (stones[i] < stones[i - 1]) {
+            const temp = stones[i]
+            stones[i] = stones[i - 1]
+            stones[i - 1] = temp
+            i--
+          }
+        }
+
+        return stones.length > 0 ? stones[0] : 0
+      }
+    </script>
+  </body>
+</html>
