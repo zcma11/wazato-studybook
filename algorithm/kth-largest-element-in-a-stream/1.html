@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function KthLargest(k, nums) {
+        this.k = k - 1
+        this.data = nums.length > 0 ? [nums[0]] : 0
+        for (let i = 1; i < nums.length; i++) {
+          this.add(nums[i])
+        }
+      }
+
+      KthLargest.prototype.add = function (val) {
+        const data = this.data
+        data.push(val)
+        let a = data.length - 1
+        while (data[a] > data[a - 1]) {
+          const temp = data[a]
+          data[a] = data[a - 1]
+          data[a - 1] = temp
+          a--
+        }
+
+        return this.data[this.k]
+      }
+    </script>
+
+    <script>
+      function test(a, b) {
+        a.shift()
+        const obj = new KthLargest(...b.shift())
+        a.forEach((item, index) => {
+          console.log(obj[item](...b[index]))
+        })
+      }
+      test(
+        ['KthLargest', 'add', 'add', 'add', 'add', 'add'],
+        [[3, [4, 5, 8, 2]], [3], [5], [10], [9], [4]]
+      )
+    </script>
+  </body>
+</html>
