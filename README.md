@@ -1,3 +1,10 @@
+### 2022/1/2
+
+1. [补充查看和最小的 K 对数字文章](https://juejin.cn/post/7048441840718053413/)
+2. [数组中第 K 个最大元素](https://juejin.cn/post/7048561599724355592/)
+3. [堆](https://juejin.cn/post/7048269220773101576/)和[快排](https://juejin.cn/post/7048561599724355592/)的详解
+4. [前K个高频单词](https://juejin.cn/post/7048654653940039688/)
+
 ### 2022/1/1
 
 1. [uncurryThis](https://juejin.cn/post/7048150957179273230/)

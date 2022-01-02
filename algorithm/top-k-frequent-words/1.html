@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function topKFrequent(words, k) {
+        const map = {}
+        for (let item of words) {
+          if (map[item]) {
+            map[item]++
+          } else {
+            map[item] = 1
+          }
+        }
+        words = Object.entries(map)
+        const compare = (a, b) => {
+          if (a[1] === b[1]) {
+            const t = a[0].localeCompare(b[0])
+            if (t > 0) {
+              return -1
+            } else if (t < 0) {
+              return 1
+            } else {
+              return 1
+            }
+          } else {
+            return a[1] - b[1]
+          }
+        }
+        const heap = new Heap(compare)
+
+        for (let item of words) {
+          if (heap.size() === k && compare(heap.data[0], item) > 0) {
+            continue
+          }
+          heap.push(item)
+          if (heap.size() > k) {
+            heap.pop()
+          }
+        }
+
+        return heap.data.sort(compare).reduceRight((a, b) => {
+          a.push(b[0])
+          return a
+        }, [])
+      }
+
+      class Heap {
+        constructor(compare) {
+          this.data = []
+          this.compare = compare
+        }
+
+        size() {
+          return this.data.length
+        }
+
+        swap(n1, n2) {
+          const { data } = this
+          const temp = data[n1]
+          data[n1] = data[n2]
+          data[n2] = temp
+        }
+
+        push(val) {
+          this.data.push(val)
+          this.bubblingUp(this.size() - 1)
+        }
+
+        pop() {
+          if (this.size() === 0) return null
+          const { data } = this
+          const discard = data[0]
+          const newMember = data.pop()
+          if (this.size() > 0) {
+            data[0] = newMember
+            this.bubblingDown(0)
+          }
+
+          return discard
+        }
+
+        bubblingUp(index) {
+          while (index > 0) {
+            const parent = (index - 1) >> 1
+            const { data } = this
+            if (this.compare(data[index], data[parent]) < 0) {
+              this.swap(parent, index)
+              index = parent
+            } else {
+              break
+            }
+          }
+        }
+
+        bubblingDown(index) {
+          const { data } = this
+          const last = this.size() - 1
+          while (true) {
+            const left = index * 2 + 1
+            const right = index * 2 + 2
+            let parent = index
+            if (left <= last && this.compare(data[left], data[parent]) < 0) {
+              parent = left
+            }
+
+            if (right <= last && this.compare(data[right], data[parent]) < 0) {
+              parent = right
+            }
+            if (index !== parent) {
+              this.swap(index, parent)
+              index = parent
+            } else {
+              break
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

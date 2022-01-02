@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function topKFrequent(words, k) {
+        const map = {}
+        for (let item of words) {
+          if (map[item]) {
+            map[item]++
+          } else {
+            map[item] = 1
+          }
+        }
+        words = Object.entries(map)
+        const compare = (a, b) => {
+          if (a[1] === b[1]) {
+            const t = a[0].localeCompare(b[0])
+            if (t > 0) {
+              return -1
+            } else if (t < 0) {
+              return 1
+            } else {
+              return 1
+            }
+          } else {
+            return a[1] - b[1]
+          }
+        }
+
+        return words
+          .sort(compare)
+          .slice(k * -1)
+          .reduceRight((a, b) => {
+            a.push(b[0])
+            return a
+          }, [])
+      }
+    </script>
+  </body>
+</html>
