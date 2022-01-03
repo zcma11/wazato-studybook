@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Heap {
+        constructor(compare) {
+          this.data = []
+          this.compare = compare
+        }
+
+        size() {
+          return this.data.length
+        }
+
+        swap(n1, n2) {
+          const { data } = this
+          const temp = data[n1]
+          data[n1] = data[n2]
+          data[n2] = temp
+        }
+
+        push(val) {
+          this.data.push(val)
+          this.bubblingUp(this.size() - 1)
+        }
+
+        pop() {
+          if (this.size() === 0) return null
+          const { data } = this
+          const discard = data[0]
+          const newMember = data.pop()
+          if (this.size() > 0) {
+            data[0] = newMember
+            this.bubblingDown(0)
+          }
+
+          return discard /* 被踢掉的曾经堆内最小节点 */
+        }
+
+        bubblingUp(index) {
+          /* 冒泡，把最小的冒到第一个，是按二叉树的父子关系，完全升序 */
+          while (index > 0) {
+            /* 一层层上去最后会聚焦到 0 */
+            /* 下标再减 1 这样就对的上二叉树的父子节点 */
+            const parent = (index - 1) >> 1
+            const { data } = this
+            if (this.compare(data[index], data[parent]) < 0) {
+              this.swap(parent, index)
+              index = parent
+            } else {
+              break
+            }
+          }
+        }
+
+        bubblingDown(index) {
+          /* 把最大的置换下去，按照二叉树的分布，放到叶子节点的下标，不是完全升序 */
+          const { data } = this
+          const last = this.size() - 1
+          while (true) {
+            /* 用二叉树而且不用保证升序的原因是只要第k大，并不关心顺序，二叉树的根节点就是第k大的数 */
+            const left = index * 2 + 1
+            const right = index * 2 + 2
+            let parent = index
+            if (left <= last && this.compare(data[left], data[parent]) < 0) {
+              parent = left
+            }
+            /* 在左右子节点中更小的那个，给挤上去 */
+            if (right <= last && this.compare(data[right], data[parent]) < 0) {
+              parent = right
+            }
+            if (index !== parent) {
+              this.swap(index, parent)
+              index = parent
+            } else {
+              break
+            }
+          }
+        }
+      }
+    </script>
+    <script>
+      function MedianFinder() {
+        this.count = 0
+        this.minHeap = new Heap((a, b) => a - b)
+        this.maxHeap = new Heap((a, b) => b - a)
+      }
+
+      MedianFinder.prototype.addNum = function (num) {
+        if (this.count % 2 === 0) {
+          if (num > this.minHeap.data[0]) {
+            this.minHeap.push(num)
+            const val = this.minHeap.pop()
+            this.maxHeap.push(val)
+          } else {
+            this.maxHeap.push(num)
+          }
+        } else {
+          if (num < this.maxHeap.data[0]) {
+            this.maxHeap.push(num)
+            const val = this.maxHeap.pop()
+            this.minHeap.push(val)
+          } else {
+            this.minHeap.push(num)
+          }
+        }
+        this.count++
+      }
+
+      MedianFinder.prototype.findMedian = function () {
+        if (this.count % 2 === 0) {
+          return (this.minHeap.data[0] + this.maxHeap.data[0]) / 2
+        } else {
+          return this.maxHeap.data[0]
+        }
+      }
+    </script>
+
+    <script>
+      function test(a, b) {
+        a.shift()
+        const obj = new MedianFinder(...b.shift())
+        a.forEach((item, index) => {
+          console.log(obj[item](...b[index]))
+        })
+      }
+
+      test(
+        ["MedianFinder","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian"],
+[[],[-1],[],[-2],[],[-3],[],[-4],[],[-5],[]]
+      )
+    </script>
+  </body>
+</html>

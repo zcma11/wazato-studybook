@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function MedianFinder() {
+        this.data = []
+      }
+
+      MedianFinder.prototype.addNum = function (num) {
+        const { data } = this
+        data.push(num)
+        let i = data.length - 1
+        while (i > 0) {
+          if (data[i] < data[i - 1]) {
+            const temp = data[i]
+            data[i] = data[i - 1]
+            data[i - 1] = temp
+          }
+          i--
+        }
+      }
+
+      MedianFinder.prototype.findMedian = function () {
+        const { data } = this
+        let i
+        if (data.length === 0) return
+        let len = data.length - 1
+        if (len % 2 !== 0) {
+          i = len >> 1
+          return (data[i] + data[i + 1]) / 2
+        } else {
+          i = len / 2
+          return data[i]
+        }
+      }
+    </script>
+    <script>
+      function test(a, b) {
+        a.shift()
+        const obj = new MedianFinder(...b.shift())
+        a.forEach((item, index) => {
+          console.log(obj[item](...b[index]))
+        })
+      }
+      test(["MedianFinder","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian","addNum","findMedian"],
+[[],[-1],[],[-2],[],[-3],[],[-4],[],[-5],[]])
+    </script>
+  </body>
+</html>
