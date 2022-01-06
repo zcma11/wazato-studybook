@@ -1,3 +1,13 @@
+### 2022/1/6
+
+1. [积压在仓库中的订单](https://juejin.cn/post/7050147828064567304/)
+2. window.window
+3. [mysql demo](https://github.com/zcma11/mysql-demo)
+
+### 2022/1/5
+
+1. window.name
+
 ### 2022/1/4
 
 1. [mysql初体验](https://juejin.cn/post/7049426679411769381/)
