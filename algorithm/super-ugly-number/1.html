@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      nthSuperUglyNumber(12, [2, 7, 13, 19])
+      function nthSuperUglyNumber(n, primes) {
+        const arr = new Array(n + 1)
+        arr[1] = 1
+        const point = new Array(primes.length).fill(1)
+
+        let k = []
+        for (let i = 2; i <= n; i++) {
+          arr[i] = primes.reduce((a, b, index) => {
+            const temp = b * arr[point[index]]
+            if (a < temp) return a
+            if (a > temp) k.length = 0
+            k.push(index)
+            return temp
+          }, Infinity)
+
+          k.forEach(j => {
+            point[j]++
+          })
+        }
+
+        return arr[n]
+      }
+    </script>
+  </body>
+</html>

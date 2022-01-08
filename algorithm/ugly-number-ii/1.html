@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function nthUglyNumber(n) {
+        const arr = new Array(n + 1)
+        arr[1] = 1
+        let n1 = 1,
+          n2 = 1,
+          n3 = 1
+        for (let i = 2; i <= n; i++) {
+          const a = arr[n1] * 2,
+            b = arr[n2] * 3,
+            c = arr[n3] * 5
+          const num = Math.min(a, b, c)
+          arr[i] = num
+          if (num === a) {
+            n1++
+          }
+          if (num === b) {
+            n2++
+          }
+          if (num === c) {
+            n3++
+          }
+        }
+
+        return arr[n]
+      }
+    </script>
+  </body>
+</html>
