@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Node(val, left = null, right = null) {
+        this.val = val
+        this.left = left
+        this.right = right
+      }
+
+      ;[3, 1, 5, 0, 2, 4, 6, null, null, null, 3]
+      const a = new Node(
+        3,
+        new Node(1, new Node(0), new Node(2, null, new Node(3))),
+        new Node(5, new Node(4), new Node(6))
+      )
+    </script>
+    <script>
+      isValidBST(a)
+      // function isValidBST(root, vaild = () => false) {
+      //   console.log('current', root?.val)
+      //   if (!root) return true
+      //   if (root.left && (root.left.val >= root.val || vaild(root.left.val))) {
+      //     return false
+      //   }
+
+      //   if (
+      //     root.right &&
+      //     (root.right.val <= root.val || vaild(root.right.val))
+      //   ) {
+      //     return false
+      //   }
+      //   return (
+      //     true &&
+      //     isValidBST(root.left, _ => {console.log(_,root.val, root); return _ >= root.val}) &&
+      //     isValidBST(root.right, _ =>{console.log(_,root.val, root); return  _ <= root.val})
+      //   )
+      // }
+
+      // function isValidBST(root, ancester = undefined, parentType = undefined) {
+      //   if (!root) return true
+      //   let leftResult = true,
+      //     rightResult = true
+      //   if (root.left) {
+      //     leftResult = root.left.val < root.val
+      //     // if (parentType === 'left') {
+      //     //   if (root.left.val >= root.val) return false
+      //     // }
+      //     if (parentType === 'right') {
+      //       // if (root.right.val >= root.val || root.right.val <= ancester) return false
+      //       leftResult = leftResult && root.right.val > ancester
+      //     }
+      //   }
+
+      //   if (root.right) {
+      //     rightResult = root.right.val > root.val
+      //     if (parentType === 'left') {
+      //       // if (root.right.val <= root.val || root.right.val >= ancester) return false
+      //       rightResult = rightResult && root.right.val < ancester
+      //     }
+      //     // if (parentType === 'right') {
+      //     //   if (root.right.val <= root.val) return false
+      //     // }
+      //   }
+
+      //   return (
+      //     leftResult &&
+      //     rightResult &&
+      //     isValidBST(root.left, root.val, 'left') &&
+      //     isValidBST(root.right, root.val, 'right')
+      //   )
+      // }
+
+      function isValidBST(root, prev = -Infinity) {
+        if (!root) return true
+
+        let res = isValidBST(root.left, prev)
+        if (!res) return false
+        if (root.left && root.val <= root.left.val) return false
+        // if (root.right && root.val >= root.right.val) return false
+        res = isValidBST(root.right, root.val)
+        if (!res) return false
+
+        return true
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function isValidBST(root, lower = -Infinity, upper = Infinity) {
+        if (!root) return true
+        const res = root.val < upper && root.val > lower
+
+        return (
+          res &&
+          isValidBST(root.left, lower, root.val) &&
+          isValidBST(root.right, root.val, upper)
+        )
+      }
+    </script>
+  </body>
+</html>
