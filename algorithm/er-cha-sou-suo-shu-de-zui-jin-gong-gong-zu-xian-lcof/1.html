@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../Node.js"></script>
+  </head>
+  <body>
+    <script>
+      const a = new Node(
+        6,
+        new Node(2, new Node(0), new Node(4, new Node(3, new Node(5)))),
+        new Node(8, new Node(7), new Node(9))
+      )
+    </script>
+    <script>
+      lowestCommonAncestor(a, 7, 4)
+      function lowestCommonAncestor(root, p, q) {
+        const s1 = move(root, p)
+        const s2 = move(root, q)
+        let i = 0
+        while (s1[i] === s2[i]) {
+          i++
+        }
+        return s1[i - 1]
+      }
+
+      function move(root, val) {
+        const stack = []
+
+        while (root) {
+          stack.push(root.val)
+          if (root.val === val) {
+            break
+          }
+
+          if (val > root.val) {
+            root = root.right
+          } else {
+            root = root.left
+          }
+        }
+        return stack
+      }
+    </script>
+  </body>
+</html>
