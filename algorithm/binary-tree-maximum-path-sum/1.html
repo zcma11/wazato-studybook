@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function maxPathSum(root) {
+        let count = root.val
+
+        function f(root) {
+          if (!root) return 0
+
+          const a = Math.max(f(root.left), 0)
+          const b = Math.max(f(root.right), 0)
+
+          count = Math.max(count, a + b + root.val)
+
+          return Math.max(a, b) + root.val
+        }
+
+        f(root)
+        return count
+      }
+    </script>
+  </body>
+</html>

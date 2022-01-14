@@ -1,3 +1,9 @@
+### 2022/1/14
+
+1. [怎么理解JavaScript词法作用域、块级作用域、作用域链、静态动态作用域](https://juejin.cn/post/7053073619143884807/)
+2. [二叉树中的最大路径和](https://juejin.cn/published)
+3. [相册系统](https://github.com/zcma11/album-system) - 登录 koa-jwt
+
 ### 2022/1/13
 
 1. 用户鉴权
