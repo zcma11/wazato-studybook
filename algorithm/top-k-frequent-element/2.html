@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @param {number} k
+       * @return {number[]}
+       */
+      function topKFrequent(nums, k) {
+        const map = {}
+        for (let i = 0; i < nums.length; i++) {
+          let item = nums[i]
+          if (map[item]) {
+            map[item]++
+          } else {
+            map[item] = 1
+          }
+        }
+
+        nums = Object.entries(map)
+        fastsort(nums, 0, nums.length - 1, k)
+
+        return nums.slice(0, k).reduce((a, b) => {
+          a.push(+b[0])
+          return a
+        }, [])
+      }
+
+      function fastsort(nums, start, end, k) {
+        let pivot = nums[start]
+        let left = start + 1
+        for (let i = left; i <= end; i++) {
+          let item = nums[i]
+          if (item[1] > pivot[1]) {
+            swap(nums, i, left)
+            left++
+          }
+        }
+
+        swap(nums, start, left - 1)
+        if (left > k) {
+          fastsort(nums, start, left - 1, k)
+        } else if (left === k) {
+          return
+        } else {
+          fastsort(nums, left, end, k)
+        }
+      }
+
+      function swap(arr, a, b) {
+        ;[arr[a], arr[b]] = [arr[b], arr[a]]
+      }
+    </script>
+  </body>
+</html>
