@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      frequencySort('tree')
+      function frequencySort(s) {
+        s = s.split('')
+        const map = {}
+        let maxCount = 1
+
+        for (let i = 0; i < s.length; i++) {
+          const item = s[i]
+          let m = map[item]
+          if (m) {
+            map[item]++
+            maxCount = Math.max(m + 1, maxCount)
+          } else {
+            map[item] = 1
+          }
+        }
+
+        const bucket = Array.from(new Array(maxCount + 1), () => new Array())
+        s = Object.entries(map)
+
+        for (const [key, num] of s) {
+          bucket[num].push(key)
+        }
+
+        s = ''
+        for (let i = bucket.length - 1; i >= 0; i--) {
+          const item = bucket[i]
+          for (let j = 0; j < item.length; j++) {
+            s += item[j].repeat(i)
+          }
+        }
+
+        return s
+      }
+    </script>
+  </body>
+</html>

@@ -1,3 +1,10 @@
+### 2022/1/18
+
+1. [根据字符出现频率排序](https://juejin.cn/post/7054580895096766478/)
+2. this 4种指向
+3. [从JavaScript看单一职责](https://juejin.cn/post/7054563478605922341/)
+4. trello 初始化 koa-ts-controllers
+
 ### 2022/1/17
 
 1. [最接近原点的 K 个点](https://juejin.cn/post/7054205513021521950/)
