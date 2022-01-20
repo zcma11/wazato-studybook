@@ -1,3 +1,8 @@
+### 2022/1/20
+
+1. [如何实现call，apply，bind](https://juejin.cn/post/7055308164169728036/)
+2. trello
+
 ### 2022/1/19
 
 1. [从Javascript看依赖倒置](https://juejin.cn/post/7054941956505501732/)
