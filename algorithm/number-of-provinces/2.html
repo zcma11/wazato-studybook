@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function findCircleNum(isConnected) {
+        let count = 0
+        let t = new Set()
+        let proviences = isConnected.length
+        let queue = []
+        for (let i = 0; i < proviences; i++) {
+          if (!t.has(i)) {
+            queue.push(i)
+            count++
+            while (queue.length) {
+              const k = queue.shift()
+              t.add(k)
+              for (let j = 0; j < proviences; j++) {
+                if (isConnected[k][j] === 1 && !t.has(j)) {
+                  queue.push(j)
+                }
+              }
+            }
+          }
+        }
+
+        return count
+      }
+    </script>
+  </body>
+</html>
