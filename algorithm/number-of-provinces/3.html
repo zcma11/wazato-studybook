@@ -1,14 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <script>
-    
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        function findCircleNum(isConnected) {
+          let provinces = isConnected.length
+          let parent = Array.from(new Array(provinces), (_, i) => i)
+
+          for (let i = 0; i < provinces; i++) {
+            for (let j = 0; j < provinces; j++) {
+              if (isConnected[i][j] === 1) {
+                parent[find(parent, i)] = find(parent, j)
+              }
+            }
+          }
+
+          let count = 0
+          parent.forEach((item, i) => {
+            if (item === i) {
+              count++
+            }
+          })
+
+          return count
+        }
+
+        function find(parent, i) {
+          if (parent[i] !== i) {
+            return find(parent, parent[i])
+          } else {
+            return parent[i]
+          }
+        }
+    </script>
+
+    <script>
+      findCircleNum([
+        [1, 0, 1, 1],
+        [0, 1, 1, 0],
+        [1, 1, 1, 0],
+        [1, 0, 0, 1]
+      ])
+    </script>
+  </body>
 </html>
