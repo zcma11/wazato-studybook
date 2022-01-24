@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../wheel/throttle.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      #box {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box"></div>
+    <script>
+      // 挂载图片
+      ;(function () {
+        const box = document.getElementById('box')
+        const fra = document.createDocumentFragment()
+
+        const imgUrls = Array.from(
+          [
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z'
+          ],
+          p => createUrl(p)
+        )
+
+        imgUrls.forEach(url => {
+          fra.appendChild(create(url))
+        })
+        box.appendChild(fra)
+
+        function createUrl(_) {
+          return `./img/${_}.jpg`
+        }
+
+        function create(src) {
+          const img = document.createElement('img')
+          img.width = 300
+          img.height = 168
+          img.src = './img/xx.jpg'
+          img.dataset.src = src
+          const wrap = document.createElement('div')
+          wrap.appendChild(img)
+          return wrap
+        }
+      })()
+    </script>
+
+    <script>
+      ;(function (window) {
+        window.lazyImg = container => {
+          const state = {
+            completed: 0,
+            imgs: container.querySelectorAll('img[data-src]')
+          }
+
+          // 图片计数，减少遍历数组的次数
+          const imgs = (state.imgs = Array.from(
+            state.imgs,
+            function (img, i) {
+              return {
+                img,
+                onload: () =>
+                  Promise.resolve().then(() => {
+                    this.imgs[i].onload = null
+                    this.imgs[i] = null
+                    this.completed++
+                  })
+              }
+            },
+            state
+          ))
+
+          state.length = imgs.length
+
+          // 懒加载，获取图片数组，然后如果还没加载并且在视口内就加载
+          function lazy() {
+            const len = imgs.length
+            for (let i = 0; i < imgs.length; i++) {
+              if (imgs[i]) {
+                const { img, onload } = imgs[i]
+                const src = img.dataset.src
+                if (src && src !== img.src && computedPos(img)) {
+                  img.src = src
+                  img.onload = onload
+                }
+              }
+            }
+          }
+
+          // 闭包外层节点的偏移量，然后加上里面的节点对父节点的偏移量
+          // 只算了top，可以加上left
+          const computedPos = (function (container) {
+            let offsetY = 0
+            while(container === document.body) {
+              offsetY += container.offsetTop
+              container = container.parentElement
+            }
+            
+            return img => {
+              const pos = offsetY + img.offsetTop
+              const min = document.documentElement.scrollTop
+              const max = min + document.body.clientHeight
+              const isStared = pos + img.offsetHeight >= min && pos <= max
+              console.log(isStared)
+              return isStared
+            }
+          })(container)
+
+          // 完成后移除监听
+          const listener = window.$throttle(() => {
+            state.completed === state.length
+              ? window.removeEventListener('scroll', listener)
+              : lazy()
+          }, 300)
+
+          // 处理一开始就在视口中的图片
+          setTimeout(listener, 150)
+
+          window.addEventListener('scroll', listener)
+        }
+      })(window)
+    </script>
+    
+    <script>
+      lazyImg(document.querySelector('#box'))
+    </script>
+  </body>
+</html>
