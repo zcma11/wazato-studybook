@@ -1,3 +1,9 @@
+### 2022/1/25
+
+1. html5 与 html4 的区别
+2. trello
+3. [从 JavaScript 看策略模式](https://juejin.cn/post/7057169594288439326)
+
 ### 2022/1/24
 
 1. [如何实现图片懒加载](https://juejin.cn/post/7056801373890822157)
