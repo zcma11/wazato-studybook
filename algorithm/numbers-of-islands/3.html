@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class UnionFind {
+        constructor(grid, r, c) {
+          this.grid = grid
+          this.parent = new Array(r * c)
+          this.rank = new Array(r * c).fill(0)
+          this.count = 0
+
+          for (let i = 0; i < r; i++) {
+            for (let j = 0; j < c; j++) {
+              this.parent[i * c + j] = i * c + j
+              grid[r][c] === '1' && this.count++
+            }
+          }
+
+          for (let i = 0; i < r; i++) {
+            for (let j = 0; j < c; j++) {
+              if (grid[r][c] === '1') {
+                grid[r][c] = '0'
+                this.around(i, j, c)
+              }
+            }
+          }
+        }
+
+        around(i, j, c) {
+          let self = i * c + j
+          if (grid[i + 1]?.[j] === '1') {
+            const neighbor = (i + 1) * c + j
+            this.union(current, neighbor)
+          }
+          if (grid[i]?.[j + 1] === '1') {
+            const neighbor = i * c + (j + 1)
+            this.union(current, neighbor)
+          }
+          if (grid[i - 1]?.[j] === '1') {
+            const neighbor = (i - 1) * c + j
+            this.union(current, neighbor)
+          }
+          if (grid[i]?.[j - 1] === '1') {
+            const neighbor = i * c + (j - 1)
+            this.union(current, neighbor)
+          }
+        }
+
+        union(self, neighbor) {
+          self = find(self)
+          neighbor = find(neighbor)
+
+          if (self !== neighbor) {
+            const l1 = this.rank[self]
+            const l2 = this.rank[neighbor]
+            if (l1 === l2) {
+              this.parent[neighbor] = self
+              this.rank[self]++
+            } else if (l1 > l2) {
+              this.parent[neighbor] = self
+            } else {
+              this.parent[self] = neighbor
+            }
+            this.count--
+          }
+        }
+
+        find(i) {
+          if (this.parent[i] === i) {
+            this.parent[i] = this.find(this.parent[i])
+          }
+          return this.parent[i]
+        }
+      }
+    </script>
+  </body>
+</html>
