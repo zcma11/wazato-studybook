@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      equationsPossible(['a==b', 'b!=c', 'c==a'])
+      function equationsPossible(equations) {
+        const map = {}
+        const parent = []
+        for (let i = 0; i < equations.length; i++) {
+          const item = equations[i]
+          const a = item[0]
+          const b = item[3]
+          const equal = item[1] === '='
+
+          if (map[a] == undefined) {
+            create(map, parent, a)
+          }
+          if (map[b] == undefined) {
+            create(map, parent, b)
+          }
+
+          if (equal) {
+            const j = map[a]
+            const k = map[b]
+            if (a !== b) {
+              const n1 = find(parent, j)
+              const n2 = find(parent, k)
+              if (n1 < n2) {
+                parent[n2] = n1
+              } else if (n1 > n2) {
+                parent[n1] = n2
+              }
+            }
+          }
+        }
+
+        for (let i = 0; i < equations.length; i++) {
+          const item = equations[i]
+          const a = item[0]
+          const b = item[3]
+          const equal = item[1] === '='
+
+          if (!equal) {
+            const j = map[a]
+            const k = map[b]
+            if (a !== b) {
+              const n1 = find(parent, j)
+              const n2 = find(parent, k)
+              if (n1 === n2) {
+                return false
+              }
+            } else {
+              return false
+            }
+          }
+        }
+        return true
+      }
+
+      function create(map, parent, a) {
+        const i = parent.length
+        map[a] = parent.push(i) - 1
+      }
+
+      function find(parent, i) {
+        if (parent[i] !== i) {
+          parent[i] = find(parent, parent[i])
+        }
+
+        return parent[i]
+      }
+    </script>
+  </body>
+</html>
