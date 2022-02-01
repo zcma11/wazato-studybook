@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function makeConnected(n, connections) {
+        const k = connections.length
+        if (n - k > 1) return -1
+        let count = n
+        const parent = Array.from(new Array(n), (_, i) => i)
+        const size = new Array(n).fill(1)
+        for (let i = 0; i < k; i++) {
+          const [a, b] = connections[i]
+          let n1, n2
+
+          if ((n1 = find(parent, a)) !== (n2 = find(parent, b))) {
+            if (size[n1] < size[n2]) {
+              const t = n2
+              n2 = n1
+              n1 = t
+            }
+
+            parent[n2] = n1
+            size[n1] += n2
+            count--
+          }
+        }
+        return count - 1
+      }
+
+      function find(parent, i) {
+        if (parent[i] !== i) {
+          parent[i] = find(parent, parent[i])
+        }
+
+        return parent[i]
+      }
+    </script>
+  </body>
+</html>
