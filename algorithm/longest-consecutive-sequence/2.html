@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function longestConsecutive(nums) {
+        if (nums.length === 0) return 0
+        const map = {}
+        for (let i = 0; i < nums.length; i++) {
+          const a = nums[i]
+          map[a] = a
+        }
+
+        let count = 1
+        const keys = Object.keys(map)
+        for (let i = 0; i < keys.length; i++) {
+          let a = map[keys[i]]
+          if (map[a - 1] == undefined) {
+            let _count = 0
+            while (map[a] !== undefined) {
+              _count++
+              a++
+            }
+
+            count = Math.max(count, _count)
+          }
+        }
+
+        return count
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      longestConsecutive([
+        4, 0, -4, -2, 2, 5, 2, 0, -8, -8, -8, -8, -1, 7, 4, 5, 5, -4, 6, 6, -3
+      ])
+      function longestConsecutive(nums) {
+        const len = nums.length
+        if (len === 0) {
+          return 0
+        }
+        let map = {}
+        const set = {}
+        const parent = Array.from(new Array(len), (_, i) => i)
+        const size = new Array(len).fill(1)
+        for (let i = 0; i < len; i++) {
+          const item = nums[i]
+          const prev = item - 1
+          if (set[item]) continue
+          set[item] = true
+
+          if (map[item] != undefined) {
+            const a = (parent[i] = find(parent, map[item]))
+            size[a]++
+          } else {
+            map[item] = parent[i]
+          }
+
+          if (map[prev] == undefined) {
+            map[prev] = parent[i]
+          } else {
+            let a = parent[i]
+            let b = find(parent, map[prev])
+            if (size[b] > size[a]) {
+              const t = a
+              a = b
+              b = t
+            }
+            parent[b] = a
+            size[a] += size[b]
+          }
+        }
+        return Math.max(...size)
+      }
+
+      function find(parent, i) {
+        if (parent[i] !== i) {
+          parent[i] = find(parent, parent[i])
+        }
+
+        return parent[i]
+      }
+    </script>
+  </body>
+</html>
