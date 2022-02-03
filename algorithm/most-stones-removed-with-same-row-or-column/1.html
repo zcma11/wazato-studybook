@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      removeStones([
+        [0, 0],
+        [0, 1],
+        [1, 0],
+        [1, 2],
+        [2, 1],
+        [2, 2]
+      ])
+      function removeStones(stones) {
+        const parent = {}
+        let count = 0
+
+        for (let i = 0; i < stones.length; i++) {
+          let [x, y] = stones[i]
+          x = x + 10001
+          if (parent[x] === undefined) {
+            parent[x] = x
+            count++
+          }
+          if (parent[y] === undefined) {
+            parent[y] = y
+            count++
+          }
+
+          const a = find(parent, x)
+          const b = find(parent, y)
+          if (a === b) continue
+          parent[b] = a
+          count--
+        }
+
+        return stones.length - count
+      }
+
+      function find(parent, i) {
+        if (parent[i] !== i) {
+          parent[i] = find(parent, parent[i])
+        }
+
+        return parent[i]
+      }
+    </script>
+  </body>
+</html>

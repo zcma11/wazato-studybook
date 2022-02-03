@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function smallestStringWithSwaps(s, pairs) {
+        const len = s.length
+        const parent = Array.from(new Array(len), (_, i) => i)
+        const map = {}
+
+        for (let [x, y] of pairs) {
+          x = find(parent, x)
+          y = find(parent, y)
+
+          if (x === y) continue
+          parent[y] = x
+        }
+
+        for (let i = 0; i < len; i++) {
+          const k = find(parent, i)
+          if (!map[k]) {
+            map[k] = {}
+          }
+          const letter = s[i]
+          map[k][i] = letter
+        }
+
+        const res = new Array(len)
+        const collection = Object.values(map)
+        for (let item of collection) {
+          const i = Object.keys(item)
+          const letters = Object.values(item)
+          letters.sort((a, b) => a.charCodeAt() - b.charCodeAt())
+
+          letters.forEach((letter, ii) => {
+            res[i[ii]] = letter
+          })
+        }
+
+        return res.join('')
+      }
+
+      function find(parent, i) {
+        if (parent[i] !== i) {
+          parent[i] = find(parent, parent[i])
+        }
+
+        return parent[i]
+      }
+    </script>
+  </body>
+</html>
