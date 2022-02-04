@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../test.js"></script>
+  </head>
+  <body>
+    <script>
+      function MedianFinder() {
+        this.data = new Array(101).fill(0)
+        this.count = 0
+      }
+
+      /**
+       * @param {number} num
+       * @return {void}
+       */
+      MedianFinder.prototype.addNum = function (num) {
+        this.data[num]++
+        this.count++
+      }
+
+      /**
+       * @return {number}
+       */
+      MedianFinder.prototype.findMedian = function () {
+        let c = 0
+        let i = 0
+        const { data } = this
+        for (; i < data.length; i++) {
+          c += data[i]
+          if (c >= this.count / 2) {
+            break
+          }
+        }
+
+        if (this.count % 2 === 0) {
+          return (i + i + 1) / 2
+        } else {
+          return i
+        }
+      }
+    </script>
+
+    <script>
+      test(MedianFinder, ["MedianFinder","addNum","addNum","findMedian"],
+[[],[0],[0],[]])
+    </script>
+  </body>
+</html>
