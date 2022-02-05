@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function mergeKLists(lists) {
+        const len = lists.length
+        if (len === 0) return null
+        if (len === 1) return lists[0]
+        const middle = len / 2
+
+        head = merge(
+          mergeKLists(lists.slice(0, middle)),
+          mergeKLists(lists.slice(middle, len))
+        )
+
+        return head
+      }
+
+      function merge(list1, list2) {
+        const head = new ListNode()
+        let last = head
+        while (list1 && list2) {
+          if (list1.val < list2.val) {
+            last = last.next = list1
+            list1 = list1.next
+          } else {
+            last = last.next = list2
+            list2 = list2.next
+          }
+        }
+
+        if (list1) {
+          last.next = list1
+        }
+
+        if (list2) {
+          last.next = list2
+        }
+
+        return head.next
+      }
+    </script>
+  </body>
+</html>

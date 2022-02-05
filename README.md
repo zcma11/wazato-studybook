@@ -1,3 +1,8 @@
+### 2022/2/5
+
+1. [合并 K 个链表](https://juejin.cn/post/7061170186748952583/)
+2. tree shaking 原理，webpack 的 tree shaking。
+
 ### 2022/2/4
 
 1. babel 原理与 AST

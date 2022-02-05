@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../Node.js"></script>
+    <script src="../Heap.js"></script>
+  </head>
+  <body>
+    <script>
+      function mergeKLists(lists) {
+        const heap = new Heap((a, b) => a.val - b.val)
+        for (let list of lists) {
+          list && heap.push(list)
+        }
+
+        const head = new ListNode()
+        let last = head
+        while (heap.size() > 0) {
+          const top = heap.pop()
+          const val = top.val
+          last = last.next = new ListNode(val)
+          if (top.next) {
+            heap.push(top.next)
+          }
+        }
+
+        return head.next
+      }
+    </script>
+  </body>
+</html>
