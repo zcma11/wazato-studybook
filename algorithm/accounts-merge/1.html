@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function accountsMerge(accounts) {
+        const map = new Map()
+        for (let [name, ...emails] of accounts) {
+          if (!map.has(name)) {
+            map.set(name, [emails])
+          } else {
+            map.get(name).push(emails)
+          }
+        }
+
+        const res = []
+        for (let [name, emailsGroup] of map) {
+          if (emailsGroup.length === 1) {
+            res.push([name, [...new Set(emailsGroup[0])].sort()])
+          } else {
+            let m = new Map()
+            const parent = Array.from(
+              new Array(emailsGroup.length),
+              (_, i) => i
+            )
+            emailsGroup.forEach((emails, i) => {
+              emails.forEach(email => {
+                if (!m.has(email)) {
+                  m.set(email, i)
+                } else {
+                  parent[i] = find(parent, m.get(email))
+                }
+              })
+            })
+
+            const _res = {}
+            for (let [email, index] of m) {
+              const i = find(parent, index)
+              if (!_res[i]) {
+                _res[i] = [name]
+              }
+
+              _res[i].push(email)
+            }
+
+            res.push(...Object.values(_res).map(emails => emails.sort()))
+          }
+        }
+
+        return res
+      }
+
+      function find(parent, i) {
+        if (parent[i] !== i) {
+          parent[i] = find(parent, parent[i])
+        }
+
+        return parent[i]
+      }
+    </script>
+  </body>
+</html>

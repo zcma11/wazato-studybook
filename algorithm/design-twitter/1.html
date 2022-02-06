@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../Heap.js"></script>
+    <script src="../ListNode.js"></script>
+    <script src="../test.js"></script>
+  </head>
+  <body>
+    <script>
+      function Twitter() {
+        this.data = {}
+      }
+
+      Twitter.prototype.getUser = function (id) {
+        if (!this.data[id]) {
+          this.data[id] = new User(id)
+        }
+
+        return this.data[id]
+      }
+
+      class User {
+        constructor(id) {
+          this.id = id
+          this.articleCount = 0
+          this.lastArticle = null
+          this.article = new ListNode(null, null, null)
+          // 关注
+          this.follow = new Set()
+          // 被关注
+          this.follower = new Set()
+        }
+      }
+
+      class Article {
+        constructor(id) {
+          this.id = id
+          this.date = Date.now()
+        }
+      }
+
+      /**
+       * @param {number} userId
+       * @param {number} tweetId
+       * @return {void}
+       */
+      Twitter.prototype.postTweet = function (userId, tweetId) {
+        const user = this.getUser(userId)
+        const article = new ListNode(
+          new Article(tweetId),
+          user.article,
+          user.article.next
+        )
+        user.article.next = article
+        if (user.articleCount < 10) {
+          user.lastArticle = article
+          user.articleCount++
+        } else {
+          user.lastArticle = user.lastArticle.prev
+          user.lastArticle.next = null
+        }
+      }
+
+      /**
+       * @param {number} userId
+       * @return {number[]}
+       */
+      Twitter.prototype.getNewsFeed = function (userId) {
+        const user = this.getUser(userId)
+        const follow = user.follow
+        const lists = [user.article.next]
+        for (let u of follow) {
+          lists.push(this.data[u].article.next)
+        }
+
+        return mergeLists(lists, 0)
+      }
+
+      /**
+       * @param {number} followerId
+       * @param {number} followeeId
+       * @return {void}
+       */
+      Twitter.prototype.follow = function (followerId, followeeId) {
+        const { data } = this
+        const follower = this.getUser(followerId)
+        const befollowed = this.getUser(followeeId)
+
+        follower.follow.add(befollowed.id)
+        befollowed.follower.add(follower.id)
+      }
+
+      /**
+       * @param {number} followerId
+       * @param {number} followeeId
+       * @return {void}
+       */
+      Twitter.prototype.unfollow = function (followerId, followeeId) {
+        const { data } = this
+        const follower = this.getUser(followerId)
+        const befollowed = this.getUser(followeeId)
+
+        follower.follow.delete(befollowed.id)
+        befollowed.follower.delete(follower.id)
+      }
+
+      function mergeLists(lists, count) {
+        const heap = new Heap((a, b) => b.val.date - a.val.date)
+        for (let l of lists) {
+          heap.push(l)
+        }
+
+        const head = new ListNode()
+        let last = head
+        while (heap.size() > 0) {
+          const top = heap.pop()
+          last = last.next = new ListNode(top.val, last, null)
+          if (--count === 0) {
+            break
+          }
+
+          if (top.next) {
+            heap.push(top.next)
+          }
+        }
+
+        return head.next
+      }
+
+      /**
+       * Your Twitter object will be instantiated and called as such:
+       * var obj = new Twitter()
+       * obj.postTweet(userId,tweetId)
+       * var param_2 = obj.getNewsFeed(userId)
+       * obj.follow(followerId,followeeId)
+       * obj.unfollow(followerId,followeeId)
+       */
+    </script>
+
+    <script>
+      test(
+        Twitter,
+        [
+          'Twitter',
+          'postTweet',
+          'getNewsFeed',
+          'follow',
+          'postTweet',
+          'getNewsFeed',
+          'unfollow',
+          'getNewsFeed'
+        ],
+        [[], [1, 5], [1], [1, 2], [2, 6], [1], [1, 2], [1]]
+      )
+    </script>
+  </body>
+</html>
