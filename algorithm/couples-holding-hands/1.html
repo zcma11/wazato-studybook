@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function minSwapsCouples(row) {
+        const len = row.length
+        const n = len / 2
+        const parent = Array.from(new Array(n), (_, i) => i)
+        let count = 0
+
+        for (let i = 0; i < len; i += 2) {
+          const a = row[i] >> 1
+          const b = row[i + 1] >> 1
+          parent[find(parent, a)] = parent[find(parent, b)]
+        }
+
+        for (let i = 0; i < n; i++) {
+          if (i === find(parent, i)) count++
+        }
+
+        return n - count
+      }
+
+      function find(parent, i) {
+        if (parent[i] !== i) {
+          parent[i] = find(parent, parent[i])
+        }
+
+        return parent[i]
+      }
+    </script>
+  </body>
+</html>

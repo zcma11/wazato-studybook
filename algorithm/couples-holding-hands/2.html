@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function minSwapsCouples(row) {
+        const map = {}
+        let count = 0
+        for (let i = 0; i < row.length; i++) {
+          map[row[i]] = i
+        }
+
+        for (let i = 0; i < row.length; i += 2) {
+          const a = row[i]
+          const b = row[i + 1]
+          const c = another(a)
+          if (c !== b) {
+            const ci = map[c]
+            row[i + 1] = c
+            row[ci] = b
+            map[b] = ci
+            count++
+          }
+        }
+        return count
+      }
+
+      function another(i) {
+        if (i % 2 === 0) {
+          return i + 1
+        } else {
+          return i - 1
+        }
+      }
+    </script>
+  </body>
+</html>
