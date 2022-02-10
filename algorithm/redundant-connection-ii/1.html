@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      findRedundantDirectedConnection = function (edges) {
+        let conflict = -1
+        let cricle = -1
+        const parent = Array.from(new Array(edges.length + 1), (_, i) => i)
+        const unionForm = Array.from(new Array(edges.length + 1), (_, i) => i)
+        for (let i = 0; i < edges.length; i++) {
+          const [a, b] = edges[i]
+
+          let p = parent[b]
+          // 没有连过线
+          if (p !== b) {
+            // 记录的永远是最后一次的边，与根节点无关
+            conflict = i
+            // 保留了第一次冲突的连线，这次没连
+          } else {
+            parent[b] = a
+            p = find(unionForm, a)
+            const q = find(unionForm, b)
+            if (q === p) {
+              cricle = i
+            } else {
+              unionForm[q] = p
+            }
+          }
+        }
+        // [[1,2],[2,3],[3,4],[4,1],[1,5]] 环
+        
+        // console.log(conflict,cricle, parent[edges[conflict][1]])
+        if (conflict < 0) {
+          // 只有环
+          return edges[cricle]
+        } else {
+          if (cricle >= 0) {
+            // [[2,1],[3,1],[4,2],[1,4]]
+            // 冲突的第一次的边的 child
+            const [, b] = edges[conflict]
+            return [parent[b], b]
+          } else {
+            // 只有冲突
+            return edges[conflict]
+          }
+        }
+      }
+
+      function find(parent, i) {
+        if (parent[i] !== i) {
+          parent[i] = find(parent, parent[i])
+        }
+
+        return parent[i]
+      }
+    </script>
+  </body>
+</html>
