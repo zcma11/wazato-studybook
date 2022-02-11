@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../Heap.js"></script>
+  </head>
+  <body>
+    <script>
+      function maxSlidingWindow(nums, k) {
+        const heap = new Heap((a, b) => b[0] - a[0])
+        nums = nums.map((n, i) => [n, i])
+        for (let i = 0; i < k; i++) {
+          heap.push(nums[i])
+        }
+
+        const result = [heap.data[0][0]]
+        k--
+        for (let i = 1; i < nums.length - k; i++) {
+          while (true) {
+            heap.push(nums[i + k])
+            const [num, index] = heap.data[0]
+            if (index >= i && index <= i + k) {
+              result.push(num)
+              break
+            } else {
+              const a = heap.pop()
+            }
+          }
+        }
+
+        return result
+      }
+    </script>
+  </body>
+</html>
