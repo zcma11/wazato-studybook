@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function maxSlidingWindow(nums, k) {
+        const len = nums.length
+
+        const before = new Array(len).fill(0)
+        const after = new Array(len).fill(0)
+
+        for (let i = 0; i < len; i++) {
+          if (i % k === 0) {
+            before[i] = nums[i]
+          } else {
+            before[i] = Math.max(nums[i], before[i - 1])
+          }
+        }
+
+        for (let i = len - 1; i >= 0; i--) {
+          if (i === len - 1 || (i + 1) % k === 0) {
+            after[i] = nums[i]
+          } else {
+            after[i] = Math.max(nums[i], after[i + 1])
+          }
+        }
+
+        const result = []
+        for (let i = 0; i <= len - k; i++) {
+          result.push(Math.max(after[i], before[i + k - 1]))
+        }
+
+        return result
+      }
+    </script>
+  </body>
+</html>

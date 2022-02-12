@@ -13,20 +13,20 @@
         const heap = new Heap((a, b) => b[0] - a[0])
         nums = nums.map((n, i) => [n, i])
         for (let i = 0; i < k; i++) {
-          heap.push(nums[i])
+          heap.push([nums[i], i])
         }
 
         const result = [heap.data[0][0]]
         k--
         for (let i = 1; i < nums.length - k; i++) {
+          heap.push([nums[i + k], i + k])
           while (true) {
-            heap.push(nums[i + k])
             const [num, index] = heap.data[0]
             if (index >= i && index <= i + k) {
               result.push(num)
               break
             } else {
-              const a = heap.pop()
+              heap.pop()
             }
           }
         }
