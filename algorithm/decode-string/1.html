@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // console.log(decodeString('2[a2[c]]'))
+      // console.log(decodeString('3[a]2[bc]'))
+      console.log(decodeString('20[leetcode]'))
+      function decodeString(s) {
+        const stack = ['']
+        const stack2 = ['']
+        let a = 0
+        let b = 0
+        let currentCount = ''
+        for (let i = 0; i < s.length; i++) {
+          const str = s[i]
+          if (/[0-9]/.exec(str)) {
+            currentCount += str
+          } else if (/[a-z]/.exec(str)) {
+            stack2[b] += str
+          } else if (/\[/.exec(str)) {
+            b++
+            a++
+            stack.push(currentCount)
+            currentCount = ''
+            stack2.push('')
+          } else if (/\]/.exec(str)) {
+            const w = stack2.pop()
+            const count = stack.pop()
+            a--
+            b--
+            stack2[b] += w.repeat(+count)
+          }
+        }
+
+        return stack2[0]
+      }
+    </script>
+  </body>
+</html>

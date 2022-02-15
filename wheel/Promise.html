@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Promise(fn) {
+        const _self = this
+        this.queue = []
+        function resolve(val) {
+          console.log('resolve')
+          while (_self.queue.length) {
+            const ret = _self.queue.shift()(val)
+            if (ret instanceof Promise) {
+              ret.queue = [...ret.queue, ..._self.queue]
+              break
+            } else {
+              val = ret
+            }
+          }
+        }
+
+        this.then = function (cb) {
+          this.queue.push(cb)
+          return this
+        }
+
+        fn(resolve)
+        return this
+      }
+
+      const a = new Promise(resolve => {
+        setTimeout(() => {
+          resolve(4)
+        }, 0)
+      })
+        .then(ds => {
+          console.log(1, ds)
+          // return new Promise(resolve => {
+          //   setTimeout(() => {
+          //     resolve(1 + ds)
+          //   }, 0)
+          // })
+          return 1 + ds
+        })
+        .then(ds => {
+          console.log(2, ds)
+          // return new Promise(resolve => {
+          //   setTimeout(() => {
+          //     resolve(2 + ds)
+          //   }, 0)
+          // })
+          return 2 + ds
+        })
+        .then(ds => console.log(ds))
+      console.log(a)
+    </script>
+  </body>
+</html>

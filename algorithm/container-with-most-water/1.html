@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function maxArea(height) {
+        let a = 0
+        let b = height.length - 1
+        let result = 0
+        while (a < b) {
+          const left = height[a]
+          const right = height[b]
+
+          const x = b - a
+          const y = Math.min(left, right)
+          result = Math.max(result, y * x)
+
+          if (left > right) {
+            b--
+          } else {
+            a++
+          }
+        }
+
+        return result
+      }
+    </script>
+  </body>
+</html>
