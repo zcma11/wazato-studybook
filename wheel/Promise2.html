@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Promise(fn) {
+        this.status = 'pending'
+        this.value = undefined
+        this.onFulfilled = null
+        this.onRejected = null
+
+        const resolve = value => {
+          if (this.status === 'pending') {
+            this.status = 'fulfilled'
+            this.value = value
+            this.onFulfilled && this.onFulfilled(value)
+          }
+        }
+
+        const reject = value => {
+          if (this.status === 'pending') {
+            this.status = 'rejected'
+            this.value = value
+            this.onRejected && this.onRejected(value)
+          }
+        }
+      }
+
+      Promise.prototype = {
+        then(onFulfilled, onRejected) {
+          if (this.status === 'pending') {
+            this.onFulfilled = onFulfilled
+            this.onRejected = onRejected
+          }
+
+          if (this.status === 'fulfilled') {
+            onFulfilled(this.value)
+          } else if (this.status === 'rejected') {
+            onRejected(this.value)
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

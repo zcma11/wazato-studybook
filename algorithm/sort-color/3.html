@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function sortColors(nums) {
+        let j = 0
+        let k = nums.length - 1
+        while (nums[k] === 2) {
+          k--
+        }
+        for (let i = 0; i <= k; i++) {
+          const num = nums[i]
+          if (num === 2) {
+            swap(nums, i, k)
+            if (nums[i] === 0) {
+              swap(nums, i, j)
+              j++
+            }
+            k--
+            while (nums[k] === 2) {
+              k--
+            }
+          }
+
+          if (num === 0) {
+            swap(nums, i, j)
+            if (num[i] === 2) {
+              swap(nums, i, j)
+              k--
+              while (nums[k] === 2) {
+                k--
+              }
+            }
+            j++
+          }
+        }
+
+        return nums
+      }
+
+      function swap(arr, i, j) {
+        const t = arr[i]
+        arr[i] = arr[j]
+        arr[j] = t
+      }
+    </script>
+  </body>
+</html>
