@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function sortArray(nums) {
+        const len = nums.length
+
+        fastSort(nums, 0, len - 1)
+        return nums
+      }
+
+      function fastSort(nums, start, end) {
+        if (start >= end) return
+        let p = nums[start]
+        let s = start + 1
+
+        for (let i = start; i <= end; i++) {
+          const n = nums[i]
+          if (n < p) {
+            swap(nums, i, s)
+            s++
+          }
+        }
+
+        swap(nums, s - 1, start)
+        fastSort(nums, start, s - 1)
+        fastSort(nums, s, end)
+      }
+
+      function swap(arr, a, b) {
+        const t = arr[a]
+        arr[a] = arr[b]
+        arr[b] = t
+      }
+    </script>
+  </body>
+</html>

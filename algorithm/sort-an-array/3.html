@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../Heap.js"></script>
+  </head>
+  <body>
+    <script>
+      function sortArray(nums) {
+        const heap = new Heap((a, b) => a - b)
+        while (nums.length) {
+          heap.push(nums.pop())
+        }
+
+        while (heap.size()) {
+          nums.push(heap.pop())
+        }
+        return nums
+      }
+    </script>
+  </body>
+</html>
