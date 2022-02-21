@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function getAllElements(root1, root2) {
+        const arr1 = dfs(root1)
+        const arr2 = dfs(root2)
+        let res = []
+        let a = 0
+        let b = 0
+        while (a < arr1.length && b < arr2.length) {
+          if (arr1[a] < arr2[b]) {
+            res.push(arr1[a])
+            a++
+          } else {
+            res.push(arr2[b])
+            b++
+          }
+        }
+
+        if (a < arr1.length) {
+          for (let i = a; i < arr1.length; i++) {
+            res.push(arr1[i])
+          }
+        } else if (b < arr2.length) {
+          for (let i = b; i < arr2.length; i++) {
+            res.push(arr2[i])
+          }
+        }
+
+        return res
+      }
+
+      function dfs(root) {
+        if (!root) return []
+        let queue = []
+        let result = []
+        while (root || queue.length) {
+          while (root) {
+            queue.push(root)
+            root = root.left
+          }
+
+          const node = queue.pop()
+          result.push(node.val)
+          if (node.right) {
+            root = node.right
+          } else {
+            root = null
+          }
+        }
+
+        return result
+      }
+    </script>
+  </body>
+</html>
