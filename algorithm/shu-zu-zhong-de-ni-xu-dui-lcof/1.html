@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function reversePairs(nums) {
+        if (nums.length <= 1) return 0
+
+        let count = 0
+
+        function merge(nums) {
+          if (nums.length === 1) return nums
+          const mid = nums.length >> 1
+          const left = nums.slice(0, mid)
+          const right = nums.slice(mid)
+
+          const a = merge(left)
+          const b = merge(right)
+
+          let i = 0
+          let j = 0
+          let res = []
+          while (i < a.length && j < b.length) {
+            if (a[i] <= b[j]) {
+              res.push(a[i])
+              i++
+            } else {
+              res.push(b[j])
+              count += a.length - i
+              j++
+            }
+          }
+
+          if (i < a.length) {
+            for (let q = i; q < a.length; q++) {
+              res.push(a[q])
+            }
+          } else if (j < b.length) {
+            for (let q = j; q < b.length; q++) {
+              res.push(b[q])
+            }
+          }
+
+          return res
+        }
+
+        merge(nums)
+        return count
+      }
+    </script>
+  </body>
+</html>
