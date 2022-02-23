@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        a: 1,
+        b: 2,
+        c: 'ernosdf',
+        d: [3, 5, 4],
+        [Symbol.iterator]() {
+          let i = 2
+          const keys = Object.keys(this)
+          return {
+            next: () => {
+              if (i < keys.length) {
+                return {
+                  value: this[keys[i++]],
+                  done: false
+                }
+              } else {
+                return {
+                  value: undefined,
+                  done: true
+                }
+              }
+            }
+          }
+        }
+      }
+
+      for (o of obj) {
+        console.log(o)
+      }
+
+      const arr = [1, 2, 3]
+      console.log(obj[Symbol.iterator]())
+      console.log((arr[Symbol.iterator] = obj[Symbol.iterator]))
+      for (a of arr) {
+        console.log(a)
+      }
+
+      const state = {
+        type: 'student',
+        data: {
+          student: {
+            a: 1,
+            b: 2,
+            c: 3
+          },
+          childs: {
+            d: 4,
+            e: 5,
+            f: 6
+          }
+        },
+        [Symbol.iterator]() {
+          const data = this.data[this.type]
+          const keys = Object.keys(data)
+          let i = 0
+          return {
+            next: () => {
+              if (i < keys.length) {
+                return {
+                  value: data[keys[i++]],
+                  done: false
+                }
+              } else {
+                return {
+                  value: undefined,
+                  done: true
+                }
+              }
+            }
+          }
+        }
+      }
+      state.type = 'childs'
+      for(s of state) {
+        console.log(s)
+      }
+    </script>
+  </body>
+</html>
