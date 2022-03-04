@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function curry(fn) {
+        let _args = []
+        const length = fn.length
+        const c = (...args) => {
+          _args = [..._args, ...args]
+          if (_args.length === length) {
+            return fn.apply(null, _args)
+          } else {
+            return c
+          }
+        }
+        
+        return c
+      }
+
+      function add(a, b, c, d, e) {
+        return a + b + c + d + e
+      }
+
+      const a = curry(add)(1)(2)(3)(14)(5)
+      console.log(a)
+    </script>
+  </body>
+</html>

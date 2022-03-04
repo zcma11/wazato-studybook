@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function random(arr, n) {
+        if (n > arr.length) return []
+        
+        let k = 0
+        while (n--) {
+          const randomI = Math.floor(Math.random() * arr.length)
+          const temp = arr[k]
+          arr[k] = arr[randomI]
+          arr[randomI] = temp
+          k++
+        }
+        
+        // 假如删掉 n 条，就返回 k 后面
+        // 如果取 n 条，就 slice(0, k)
+        // 不同的情况上面的 return 也看着办。
+        return arr.slice(k)
+      }
+      
+      const arr = Array.from(new Array(200), (_, i) => i)
+      const a = random(arr, 100)
+      console.log(a, a.length)
+    </script>
+  </body>
+</html>

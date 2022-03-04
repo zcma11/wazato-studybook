@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function compose(...funs) {
+        return (...args) => {
+          let i = funs.length - 1
+          let res = funs[i](...args)
+          while (i--) {
+            res = args = funs[i](res)
+          }
+
+          return res
+        }
+      }
+
+      const add = (x, y) => {
+        return x + y
+      }
+
+      const squart = x => x * x
+      // const s = compose(squart, add)(1, 2)
+      // console.log(s)
+
+      function ccomposs(...funs) {
+        return (...args) => funs.reduceRight((a, b) => b(a), args)
+      }
+
+      const s = ccomposs(squart, add)(1, 2)
+      console.log(s)
+    </script>
+  </body>
+</html>
