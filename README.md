@@ -1,3 +1,7 @@
+### 2022/3/7
+
+1. typescript 中 any，unknown，never
+
 ### 2022/3/6
 
 1. trello trello 保存拖拽结果，修改列表，新增卡片，展示卡片
