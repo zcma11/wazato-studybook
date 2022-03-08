@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function countRangeSum(nums, lower, upper) {
+        let sum = [0]
+        let c = 0
+        for (let i = 0; i < nums.length; i++) {
+          sum.push((c += nums[i]))
+        }
+        return compute(sum, 0, sum.length - 1, lower, upper)
+      }
+
+      function compute(sum, left, right, lower, upper) {
+        console.log(left, right)
+        if (left === right) {
+          return 0
+        }
+
+        const mid = Math.floor((right + left) / 2)
+        const leftCount = compute(sum, left, mid, lower, upper)
+        const rightCount = compute(sum, mid + 1, right, lower, upper)
+        let i = left
+        let count = leftCount + rightCount
+        while (i <= mid) {
+          let j = mid + 1
+          console.log(sum[j], sum[i], lower, upper)
+          while (j <= right && sum[j] - sum[i] <= upper) {
+            if (sum[j] - sum[i] >= lower) {
+              count++
+            }
+            j++
+          }
+          i++
+        }
+
+        // let i = left;
+        // let l = mid + 1;
+        // let r = mid + 1;
+        // while (i <= mid) {
+        //     while (l <= right && sum[l] - sum[i] < lower) l++;
+        //     while (r <= right && sum[r] - sum[i] <= upper) r++;
+        //     count += (r - l);
+        //     i++;
+        // }
+
+        const arr = []
+        let ll = left
+        let rr = mid + 1
+        while (ll <= mid || rr <= right) {
+          if (ll > mid) {
+            arr.push(sum[rr++])
+          } else if (rr > right) {
+            arr.push(sum[ll++])
+          } else if (sum[ll] < sum[rr]) {
+            arr.push(sum[ll++])
+          } else {
+            arr.push(sum[rr++])
+          }
+        }
+
+        // while (ll <= mid && rr <= right) {
+        //   if (sum[ll] < sum[rr]) {
+        //     arr.push(sum[ll++])
+        //   } else {
+        //     arr.push(sum[rr++])
+        //   }
+        // }
+
+        // if (ll <= mid) {
+        //   for (let i = ll; i <= mid; i++) {
+        //     arr.push(sum[i])
+        //   }
+        // }
+        // if (rr <= right) {
+        //   for (let i = rr; i <= right; i++) {
+        //     arr.push(sum[i])
+        //   }
+        // }
+
+        for (let i = 0; i < arr.length; i++) {
+          sum[left + i] = arr[i]
+        }
+        return count
+      }
+    </script>
+  </body>
+</html>
