@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function countSmaller(nums) {
+        const a = [...new Set(nums)].sort((a, b) => a - b)
+
+        const map = a.reduce((a, b, i) => {
+          a[b] = i + 1
+          return a
+        }, {})
+
+        const b = new Array(a.length + 1).fill(0)
+        const result = []
+        for (let i = nums.length - 1; i >= 0; i--) {
+          const n = nums[i]
+          for (let j = map[n]; j < b.length; j++) {
+            b[j]++
+          }
+
+          result.unshift(b[map[n] - 1])
+        }
+
+        return result
+      }
+    </script>
+  </body>
+</html>
