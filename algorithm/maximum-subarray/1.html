@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function maxSubArray(nums) {
+        return getSub(nums, 0, nums.length - 1).mSum
+      }
+
+      class Group {
+        constructor(lSum, rSum, mSum, tSum) {
+          this.lSum = lSum
+          this.rSum = rSum
+          this.mSum = mSum
+          this.tSum = tSum
+        }
+      }
+
+      function getSub(nums, left, right) {
+        if (left === right) {
+          return new Group(nums[left], nums[left], nums[left], nums[left])
+        }
+        const mid = Math.floor((right + left) / 2)
+        const leftGroup = getSub(nums, left, mid)
+        const rightGroup = getSub(nums, mid + 1, right)
+
+        return mergeGroup(leftGroup, rightGroup)
+      }
+
+      function mergeGroup(leftGroup, rightGroup) {
+        const tSum = leftGroup.tSum + rightGroup.tSum
+        const lSum = Math.max(leftGroup.lSum, leftGroup.tSum + rightGroup.lSum)
+        const rSum = Math.max(rightGroup.rSum, rightGroup.tSum + leftGroup.rSum)
+        const mSum = Math.max(
+          leftGroup.mSum,
+          rightGroup.mSum,
+          leftGroup.rSum + rightGroup.lSum
+        )
+
+        return new Group(lSum, rSum, mSum, tSum)
+      }
+    </script>
+  </body>
+</html>
