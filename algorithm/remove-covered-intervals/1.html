@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function removeCoveredIntervals(intervals) {
+        intervals.sort((a, b) => (a[0] === b[0] ? b[1] - a[1] : a[0] - b[0]))
+
+        let t = intervals[0]
+        let count = 0
+        for (let i = 1; i < intervals.length; i++) {
+          const inte = intervals[i]
+
+          if (inte[1] <= t[1]) {
+            count++
+          } else {
+            t = inte
+          }
+        }
+
+        return intervals.length - count
+      }
+    </script>
+  </body>
+</html>
