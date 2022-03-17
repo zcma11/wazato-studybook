@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function pathSum(root, sum) {
+        if (!root) return 0
+        let count = 0
+        function traverse(node, s) {
+          if (!node) return
+          const val = s + node.val
+          if (val === sum) count++
+
+          traverse(node.left, val)
+          traverse(node.right, val)
+        }
+
+        traverse(root, 0)
+        return count + pathSum(root.left, sum) + pathSum(root.right, sum)
+      }
+    </script>
+  </body>
+</html>

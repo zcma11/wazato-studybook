@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 另一种方法是 递归 push ，然后 pop
+      function findSubsequences(nums) {
+        function traverse(arr, start) {
+          const map = {}
+          for (let i = start; i < nums.length; i++) {
+            const n = nums[i]
+            if (map[n]) continue
+            map[n] = true
+            if (arr[arr.length - 1] <= n) {
+              const res = [...arr, n]
+              result.push(res)
+              traverse(res, i + 1)
+            }
+          }
+        }
+
+        const result = []
+        const map = {}
+        for (let i = 0; i < nums.length; i++) {
+          const a = nums[i]
+          if (map[a]) continue
+          map[a] = true
+          traverse([a], i + 1)
+        }
+
+        return result
+      }
+    </script>
+  </body>
+</html>
