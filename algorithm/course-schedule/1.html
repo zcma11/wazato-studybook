@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function canFinish(numCourses, prerequisites) {
+        const edges = Array.from(new Array(numCourses), _ => [])
+        const visited = new Array(numCourses).fill(0)
+        let valid = true
+        function dfs(i, visited, edges) {
+          visited[i] = 1
+          const ed = edges[i]
+          for (let k of ed) {
+            if (visited[k] == 0) {
+              dfs(k, visited, edges)
+              if (!valid) {
+                return
+              }
+            } else if (visited[k] == 1) {
+              valid = false
+              return
+            }
+          }
+          visited[i] = 2
+        }
+
+        for (const info of prerequisites) {
+          edges[info[1]].push(info[0])
+        }
+        for (i = 0; i < numCourses; i++) {
+          if (valid && !visited[i]) {
+            dfs(i, visited, edges)
+          }
+        }
+        return valid
+      }
+    </script>
+  </body>
+</html>

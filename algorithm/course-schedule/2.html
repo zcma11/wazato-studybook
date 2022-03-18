@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function canFinish(numCourses, prerequisites) {
+        const edges = Array.from(new Array(numCourses), _ => [])
+        let countMap = new Array(numCourses).fill(0)
+
+        for (const v of prerequisites) {
+          edges[v[1]].push(v[0])
+          countMap[v[0]]++
+        }
+
+        let count = 0
+        const queue = []
+        for (let n = 0; n < numCourses; n++) {
+          if (countMap[n] === 0) {
+            queue.push(n)
+          }
+        }
+
+        while (queue.length) {
+          count++
+          const i = queue.pop()
+          for (let v of edges[i]) {
+            countMap[v]--
+            if (countMap[v] === 0) {
+              queue.push(v)
+            }
+          }
+        }
+
+        return count === numCourses
+      }
+    </script>
+  </body>
+</html>
