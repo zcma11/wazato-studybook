@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function countSmaller(nums) {
+        const a = [...new Set(nums)].sort((a, b) => a - b)
+
+        const map = a.reduce((a, b, i) => {
+          a[b] = i + 1
+          return a
+        }, {})
+
+        const b = new Array(a.length + 1).fill(0)
+        const result = Array(nums.length)
+        for (let i = nums.length - 1; i >= 0; i--) {
+          const index = map[nums[i]]
+          updateSum(index, b)
+          result[i] = getSum(index - 1, b)
+        }
+
+        return result
+      }
+
+      function getSum(n, b) {
+        let res = 0
+        while (n) {
+          res += b[n]
+          n -= lowbit(n)
+        }
+        return res
+      }
+
+      function updateSum(n, b) {
+        while (n < b.length) {
+          b[n] += 1
+          n += lowbit(n)
+        }
+      }
+
+      function lowbit(n) {
+        return n & (n * -1)
+      }
+    </script>
+  </body>
+</html>
