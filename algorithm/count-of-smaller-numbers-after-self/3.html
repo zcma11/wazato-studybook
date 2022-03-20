@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function countSmaller(nums) {
+        const map = Array.from(nums, (_, i) => i)
+        const result = new Array(nums.length).fill(0)
+        merge(nums, 0, nums.length - 1, map, result)
+        return result
+      }
+
+      function merge(arr, start, end, map, result) {
+        if (start >= end) return
+
+        const mid = Math.floor((start + end) / 2)
+
+        merge(arr, start, mid, map, result)
+        merge(arr, mid + 1, end, map, result)
+
+        let a = start
+        let b = mid + 1
+        const res = []
+        const index = []
+        while (a <= mid || b <= end) {
+          if (a > mid) {
+            res.push(arr[b])
+            index.push(map[b])
+            b++
+          } else if (b > end) {
+            result[map[a]] += b - mid - 1
+            res.push(arr[a])
+            index.push(map[a])
+            a++
+          } else if (arr[a] <= arr[b]) {
+            res.push(arr[a])
+            result[map[a]] += b - mid - 1
+            index.push(map[a])
+            a++
+          } else {
+            res.push(arr[b])
+            index.push(map[b])
+            b++
+          }
+        }
+
+        for (let i = 0; i < res.length; i++) {
+          arr[i + start] = res[i]
+          map[i + start] = index[i]
+        }
+      }
+    </script>
+  </body>
+</html>
