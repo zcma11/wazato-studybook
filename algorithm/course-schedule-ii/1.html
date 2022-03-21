@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function findOrder(numCourses, prerequisites) {
+        const courseMap = Array.from(new Array(numCourses), _ => [])
+        let valid = true
+        const visited = new Array(numCourses).fill(0)
+        const result = []
+
+        for (let i = 0; i < prerequisites.length; i++) {
+          const info = prerequisites[i]
+          courseMap[info[1]].push(info[0])
+        }
+
+        function dfs(i) {
+          visited[i] = 1
+          for (const j of courseMap[i]) {
+            if (visited[j] === 0) {
+              dfs(j)
+              if (!valid) return
+            } else if (visited[j] === 1) {
+              return (valid = false)
+            }
+          }
+          visited[i] = 2
+          result.push(i)
+        }
+
+        for (let i = 0; i < numCourses; i++) {
+          if (valid && visited[i] === 0) {
+            dfs(i)
+          }
+        }
+
+        return valid ? result.reverse() : []
+      }
+    </script>
+  </body>
+</html>
