@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function relativeSortArray(arr1, arr2) {
+        const map = {}
+        for (let i = 0; i < arr2.length; i++) {
+          const n = arr2[i]
+          map[n] = i + 1
+        }
+
+        arr1.sort((a, b) => {
+          const i = map[a]
+          const ii = map[b]
+          if (i && ii) {
+            return i - ii
+          }
+
+          if (i || ii) {
+            return 1
+          }
+
+          return a - b
+        })
+
+        return arr1
+      }
+    </script>
+  </body>
+</html>

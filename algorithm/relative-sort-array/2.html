@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function relativeSortArray(arr1, arr2) {
+        const limit = Math.max(...arr1)
+        const countMap = arr1.reduce((a, b) => {
+          ++a[b]
+          return a
+        }, new Array(limit + 1).fill(0))
+
+        let k = 0
+        for (let i = 0; i < arr2.length; i++) {
+          const n = arr2[i]
+          const count = countMap[n]
+          arr1[k] = n
+          if (count) {
+            for (let j = 0; j < count; j++) {
+              arr1[j + k] = n
+            }
+            k += count
+            countMap[n] = 0
+          }
+        }
+
+        for (let i = 0; i < countMap.length; i++) {
+          const count = countMap[i]
+          if (count) {
+            for (let j = 0; j < count; j++) {
+              arr1[j + k] = i
+            }
+            k += count
+          }
+        }
+
+        return arr1
+      }
+    </script>
+  </body>
+</html>
