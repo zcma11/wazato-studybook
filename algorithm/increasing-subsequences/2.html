@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function findSubsequences(nums) {
+        const temp = []
+        const result = []
+        dfs(0, nums, temp, result, -Infinity)
+
+        return result
+      }
+
+      function dfs(cur, nums, temp, result, last) {
+        if (temp.length >= 2) {
+          result.push([...temp])
+        }
+
+        const set = new Set()
+        for (let i = cur; i < nums.length; i++) {
+          const n = nums[i]
+          if (set.has(n)) continue
+          if (n >= last) {
+            set.add(n)
+            temp.push(n)
+            dfs(i + 1, nums, temp, result, n)
+            temp.pop()
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

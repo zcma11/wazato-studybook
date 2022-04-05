@@ -1,6 +1,14 @@
+### 2022/4/5
+
+1. [从 Javascript 看装饰模式](https://juejin.cn/post/7083024543396134919/)
+2. [从 Javascript 看适配器模式](https://juejin.cn/post/7083029096619327519/)
+3. [从 Javascript 看享元模式](https://juejin.cn/post/7083036179800539150/)
+4. [补充递增子序列文章](https://juejin.cn/post/7083112686489174030/)
+5. d3 元素增删改查 api svg
+
 ### 2022/4/3-4
 
-1. 练习组件库项目 button组件，库的打包发布。[ui-repository](https://www.npmjs.com/package/ui-repository)
+1. 练习组件库项目 button 组件，库的打包发布。[ui-repository](https://www.npmjs.com/package/ui-repository)
 
 ### 2022/4/1
 
