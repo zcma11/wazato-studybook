@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function minDeletions(s) {
+        const set = Array(26).fill(0)
+        const n = 'a'.charCodeAt(0)
+        for (let i = 0; i < s.length; i++) {
+          const a = s[i]
+          set[a.charCodeAt(0) - n]++
+        }
+        const x = {}
+        let i = 0
+        set.forEach(c => {
+          if (!x[c]) {
+            x[c] = true
+          } else {
+            while (x[c] && c > 0) {
+              i++
+              c--
+            }
+            x[c] = true
+          }
+        })
+
+        return i
+      }
+    </script>
+    <script>
+      function minDeletions(s) {
+        const map = {}
+        for (let i = 0; i < s.length; i++) {
+          const a = s[i]
+          if (!map[a]) {
+            map[a] = 1
+          } else {
+            map[a]++
+          }
+        }
+        const x = {}
+        let i = 0
+        Object.values(map).forEach(c => {
+          if (!x[c]) {
+            x[c] = true
+          } else {
+            while (x[c]) {
+              i++
+              c--
+            }
+            c > 0 && (x[c] = true)
+          }
+        })
+
+        return i
+      }
+    </script>
+  </body>
+</html>
