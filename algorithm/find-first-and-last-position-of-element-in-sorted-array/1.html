@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function searchRange(nums, target) {
+        let a = 0
+        let b = nums.length - 1
+        let start = nums.length
+        while (a <= b) {
+          const mid = (a + b) >> 1
+          const n = nums[mid]
+          if (n >= target) {
+            start = mid
+            b = mid - 1
+          } else {
+            a = mid + 1
+          }
+        }
+
+        let end = nums.length
+        a = 0
+        b = nums.length - 1
+        while (a <= b) {
+          const mid = (a + b) >> 1
+          const n = nums[mid]
+          if (n > target) {
+            end = mid
+            b = mid - 1
+          } else {
+            a = mid + 1
+          }
+        }
+
+        if (
+          start <= end - 1 &&
+          end - 1 < nums.length &&
+          nums[start] === target &&
+          nums[end - 1] === target
+        ) {
+          return [start, end - 1]
+        }
+        return [-1, -1]
+      }
+    </script>
+  </body>
+</html>
