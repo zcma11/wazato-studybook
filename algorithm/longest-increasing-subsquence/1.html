@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function lengthOfLIS(nums) {
+        let arr = [nums[0]]
+
+        for (let i = 1; i < nums.length; i++) {
+          const n = nums[i]
+          const a = arr[arr.length - 1]
+          if (a < n) {
+            arr.push(n)
+          } else {
+            if (arr.includes(n)) {
+              continue
+            }
+
+            // let j = arr.length - 1
+            // while (arr[j] > n) {
+            //   j--
+            // }
+
+            let j = -1
+            let l = 0
+            let r = arr.length - 1
+            while (l <= r) {
+              const mid = (r + l) >> 1
+              if (arr[mid] < n) {
+                j = mid
+                l = mid + 1
+              } else {
+                r = mid - 1
+              }
+            }
+
+            arr[j + 1] = n
+          }
+        }
+
+        return arr.length
+      }
+    </script>
+  </body>
+</html>
