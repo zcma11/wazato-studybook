@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function shipWithinDays(weights, days) {
+        let l = Math.max(...weights)
+        let r = weights.reduce((a, b) => a + b, 0)
+
+        while (l < r) {
+          const mid = (l + r) >> 1
+          let fleet = 0
+          let count = 1
+
+          if (fleet + weight <= mid) {
+            fleet += weight
+          } else {
+            count++
+            fleet = weight
+          }
+          if (count <= days) {
+            r = mid
+          } else {
+            l = mid + 1
+          }
+        }
+
+        return l
+      }
+    </script>
+  </body>
+</html>

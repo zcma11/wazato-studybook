@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function maxProduct(words) {
+        let res = 0
+        for (let i = 0; i < words.length; i++) {
+          const a = words[i]
+          for (let j = i + 1; j < words.length; j++) {
+            const b = words[j]
+            let isSame = false
+            for (let m = 0; m < a.length; m++) {
+              for (let n = 0; n < b.length; n++) {
+                if (a[m] === b[n]) isSame = true
+              }
+            }
+
+            if (!isSame) {
+              res = Math.max(res, a.length * b.length)
+            }
+          }
+        }
+
+        return res
+      }
+    </script>
+  </body>
+</html>
