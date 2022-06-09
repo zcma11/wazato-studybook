@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function distributeCoins(root) {
+        let res = 0
+        function f(node) {
+          if (!node) return 0
+          const l = f(node.left)
+          const r = f(node.right)
+
+          res += Math.abs(l) + Math.abs(r)
+          const coin = node.val + l + r - 1
+          return coin
+        }
+        f(root)
+        return res
+      }
+    </script>
+  </body>
+</html>

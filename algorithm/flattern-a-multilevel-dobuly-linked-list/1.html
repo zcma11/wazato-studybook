@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function flatten(head, next = null) {
+        if (!head) return head
+        let node = head
+        let last = null
+        while (node) {
+          if (node.child) {
+            flatten(node.child, node.next)
+            node.next = node.child
+            node.child.prev = node
+            node.child = null
+          }
+          last = node
+          node = node.next
+        }
+        next && (next.prev = last)
+        last.next = next
+        return head
+      }
+    </script>
+  </body>
+</html>

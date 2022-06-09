@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function distanceK(root, target, k) {
+        const map = {}
+        const f = (node, p) => {
+          if (!node) return
+
+          map[node.val] = p
+
+          f(node.left, node)
+          f(node.right, node)
+        }
+
+        f(root)
+
+        const res = []
+        const find = (node, distance, from, k) => {
+          if (!node) return
+
+          if (distance === k) {
+            res.push(node.val)
+            return
+          }
+
+          if (node.left !== from) {
+            find(node.left, distance + 1, node, k)
+          }
+          if (node.right !== from) {
+            find(node.right, distance + 1, node, k)
+          }
+
+          if (map[node.val] !== from) {
+            find(map[node.val], distance + 1, node, k)
+          }
+        }
+
+        find(target, 0, null, k)
+
+        return res
+      }
+    </script>
+  </body>
+</html>
