@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var LRUCache = function (capacity) {
+        this.data = new Node(null)
+        this.size = 0
+        this.max = capacity
+      }
+
+      function Node(val, prev = null, next = null) {
+        this.val = val
+        this.prev = prev
+        this.next = next
+      }
+
+      LRUCache.prototype.addHead = function (node) {
+        const h = this.data.next
+        if (!h) {
+          this.data.next = node
+          node.prev = this.data
+          return
+        }
+        this.data.next = node
+        h.prev = node
+        node.next = h
+        node.prev = this.data
+      }
+
+      LRUCache.prototype.remove = function (node) {
+        // node.val === 2 && console.log('remove', node)
+        node.prev.next = node.next
+        if (node.next) {
+          node.next.prev = node.prev
+        }
+        node.prev = null
+        node.next = null
+      }
+
+      /**
+       * @param {number} key
+       * @return {number}
+       */
+      LRUCache.prototype.get = function (key) {
+        let n = this.data.next
+        while (n) {
+          if (n.val[0] === key) {
+            this.remove(n)
+            // console.log(this.data.next)
+            this.addHead(n)
+            // console.log('get', key, this.data.next)
+            return n.val[1]
+          }
+          n = n.next
+        }
+
+        return -1
+      }
+
+      /**
+       * @param {number} key
+       * @param {number} value
+       * @return {void}
+       */
+      LRUCache.prototype.put = function (key, value) {
+        let n = this.data.next
+        let last = null
+        while (n) {
+          if (n.val[0] === key) {
+            break
+          }
+
+          last = n
+          n = n.next
+        }
+        if (n) {
+          n.val[1] = value
+          this.remove(n)
+          this.addHead(n)
+        } else {
+          // console.log(key, this.size)
+          if (this.max === this.size) {
+            this.size--
+            this.remove(last)
+          }
+          this.size++
+          this.addHead(new Node([key, value]))
+        }
+      }
+      ;(function (a, b) {
+        const lru = new LRUCache(...b[0])
+        for (let i = 1; i < a.length; i++) {
+          lru[a[i]](...b[i])
+        }
+      })(
+        ['LRUCache', 'get', 'put', 'get', 'put', 'put', 'get', 'get'],
+        [[2], [2], [2, 6], [1], [1, 5], [1, 2], [1], [2]]
+      )
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Encodes a URL to a shortened URL.
+       *
+       * @param {string} longUrl
+       * @return {string}
+       */
+      const map = {}
+      const reg = /(https?:\/\/(?:.*?))\//
+      const code =
+        '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      let i = 0
+
+      function mix() {
+        let c = i++
+        let str = ''
+        while (c > 0) {
+          c--
+          str += code[c % 62]
+          c = (c / 62) >> 1
+        }
+
+        return str
+      }
+      var encode = function (longUrl) {
+        const key = mix()
+        map['/' + key] = longUrl
+        return longUrl.match(reg) + '/' + key
+      }
+
+      /**
+       * Decodes a shortened URL to its original URL.
+       *
+       * @param {string} shortUrl
+       * @return {string}
+       */
+      var decode = function (shortUrl) {
+        const key = shortUrl.replace(shortUrl.match(reg), '')
+
+        return map[key]
+      }
+    </script>
+  </body>
+</html>

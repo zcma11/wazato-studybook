@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var MyHashMap = function () {
+        this.BASE = 101
+        this.data = Array.from(Array(this.BASE), () => new NodeList())
+      }
+
+      function Node(val, next) {
+        this.val = val
+        this.next = next
+      }
+
+      function NodeList() {
+        const n = new Node(null)
+        this.last = n
+        this.head = n
+        this.size = 0
+
+        this.find = valid => {
+          let n = this.head.next
+          let prev = this.head
+          while (n) {
+            if (valid(n.val)) {
+              return [prev, n]
+            }
+
+            prev = n
+            n = n.next
+          }
+
+          return [prev, null]
+        }
+
+        this.add = (key, value) => {
+          const [prev, n] = this.find(([k]) => k === key)
+          if (n) {
+            n.val[1] = value
+          } else {
+            this.last = prev.next = new Node([key, value])
+            this.size++
+          }
+        }
+
+        this.remove = key => {
+          const [prev, n] = this.find(([k]) => k === key)
+
+          if (n) {
+            prev.next = n.next
+            this.size--
+            if (n === this.last) {
+              this.last = prev
+            }
+          }
+        }
+      }
+
+      MyHashMap.prototype.hash = function (key) {
+        return key % this.BASE
+      }
+
+      /**
+       * @param {number} key
+       * @param {number} value
+       * @return {void}
+       */
+      MyHashMap.prototype.put = function (key, value) {
+        const h = this.hash(key)
+        const d = this.data[h]
+        d.add(key, value)
+        // for (let it of d) {
+        //     if (it[0] === key) {
+        //         it[1] = value
+        //         return
+        //     }
+        // }
+        // d.push([key, value])
+      }
+
+      /**
+       * @param {number} key
+       * @return {number}
+       */
+      MyHashMap.prototype.get = function (key) {
+        const h = this.hash(key)
+        const d = this.data[h]
+        // for (let it of d) {
+        //     if (it[0] === key) {
+        //         return it[1]
+        //     }
+        // }
+        const [, n] = d.find(([k]) => k === key)
+
+        return n ? n.val[1] : -1
+      }
+
+      /**
+       * @param {number} key
+       * @return {void}
+       */
+      MyHashMap.prototype.remove = function (key) {
+        const h = this.hash(key)
+        const d = this.data[h]
+        // const i = d.findIndex(it => it[0] === key)
+        // if (i > -1) {
+        //     d.splice(i, 1)
+        // }
+        d.remove(key)
+      }
+    </script>
+  </body>
+</html>

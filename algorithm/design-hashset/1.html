@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var MyHashSet = function () {
+        this.BASE = 799
+        this.m = {}
+      }
+
+      function Node(val, next = null) {
+        this.val = val
+        this.next = next
+      }
+
+      function NodeList() {
+        const n = new Node(null)
+        this.last = n
+        this.head = n
+        this.size = 0
+
+        this.add = node => {
+          this.last = this.last.next = node
+          this.size++
+        }
+
+        this.remove = val => {
+          let n = this.head
+          let prev = null
+          while (n) {
+            if (n.val === val) {
+              prev.next = n.next
+              if (this.last === n) {
+                this.last = prev
+              }
+              this.size--
+              return true
+            }
+            prev = n
+            n = n.next
+          }
+
+          return false
+        }
+      }
+      /**
+       * @param {number} key
+       * @return {void}
+       */
+      MyHashSet.prototype.add = function (key) {
+        if (this.contains(key)) return
+        const k = (key / this.BASE) >> 1
+        let list = this.m[k]
+        if (!list) {
+          this.m[k] = list = new NodeList()
+        }
+        list.add(new Node(key))
+      }
+
+      /**
+       * @param {number} key
+       * @return {void}
+       */
+      MyHashSet.prototype.remove = function (key) {
+        const k = (key / this.BASE) >> 1
+        this.contains(key) && this.m[k].remove(key)
+      }
+
+      /**
+       * @param {number} key
+       * @return {boolean}
+       */
+      MyHashSet.prototype.contains = function (key) {
+        const k = (key / this.BASE) >> 1
+        let list = this.m[k]
+        if (list?.head) {
+          let n = list.head
+          while (n) {
+            if (n.val === key) {
+              return true
+            }
+            n = n.next
+          }
+        }
+        return false
+      }
+    </script>
+  </body>
+</html>
