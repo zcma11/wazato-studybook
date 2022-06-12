@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function findRepeatedDnaSequences(s) {
+        const L = 10
+        const m = {
+          A: 0,
+          C: 1,
+          G: 2,
+          T: 3
+        }
+
+        let x = 0
+        for (let i = 0; i < L - 1; i++) {
+          x = (x << 2) | m[s[i]]
+        }
+
+        let res = []
+        const cache = new Map()
+        for (let i = 0; i <= s.length - L; i++) {
+          x = ((x << 2) | m[s[i + L - 1]]) & ((1 << (L * 2)) - 1)
+          const count = cache.get(x) ?? 0
+          cache.set(x, count + 1)
+
+          if (count === 1) {
+            res.push(s.slice(i, i + L))
+          }
+        }
+        return res
+      }
+
+      findRepeatedDnaSequences('AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT')
+    </script>
+  </body>
+</html>
