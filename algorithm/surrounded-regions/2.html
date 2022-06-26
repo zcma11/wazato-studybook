@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function solve(board) {
+        const row = board.length
+        const col = board[0].length
+        const union = Array.from(Array(row * col), (_, i) => i)
+
+        for (let i = 0; i < row; i++) {
+          if (board[i][0] === 'O') {
+            union[i * row] = 0
+          }
+          if (board[i][col - 1] === 'O') {
+            union[i * row + col - 1] = 0
+          }
+        }
+
+        for (let i = 1; i < col - 1; i++) {
+          if (board[0][i] === 'O') {
+            union[i] = 0
+          }
+          if (board[row - 1][i] === 'O') {
+            union[(row - 1) * row + i] = 0
+          }
+        }
+
+        const find = i => {
+          while (union[i] !== i) {
+            union[i] = union[union[i]]
+            i = union[i]
+          }
+
+          return i
+        }
+
+        const connect = (a, b) => {
+          const n1 = find(a)
+          const n2 = find(b)
+          if (n1 !== n2) {
+            n1 < n2 ? (union[n2] = n1) : (union[n1] = n2)
+          }
+        }
+
+        for (let i = 1; i < row - 1; i++) {
+          for (let j = 1; j < col - 1; j++) {
+            if (board[i][j] === 'O') {
+              const index = computeIndex(i, j, row)
+              board[i + 1][j] === 'O' &&
+                connect(index, computeIndex(i + 1, j, row))
+              board[i - 1][j] === 'O' &&
+                connect(index, computeIndex(i - 1, j, row))
+              board[i][j + 1] === 'O' &&
+                connect(index, computeIndex(i, j + 1, row))
+              board[i][j - 1] === 'O' &&
+                connect(index, computeIndex(i, j - 1, row))
+            }
+          }
+        }
+
+        for (let i = 0; i < row; i++) {
+          for (let j = 0; j < col; j++) {
+            const index = find(computeIndex(i, j, row))
+            if (index !== find(0) && board[i][j] === 'O') {
+              board[i][j] = 'X'
+            }
+          }
+        }
+
+        return board
+      }
+
+      function computeIndex(x, y, size) {
+        return x * size + y
+      }
+    </script>
+  </body>
+</html>
