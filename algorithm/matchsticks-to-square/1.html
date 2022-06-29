@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function makesquare(matchsticks) {
+        let circumference = 0
+        for (n of matchsticks) {
+          circumference += n
+        }
+
+        if (circumference % 4 !== 0 || matchsticks.length < 4) {
+          return false
+        }
+
+        const sideLen = circumference / 4
+        const sides = Array(4).fill(0)
+        matchsticks.sort((a, b) => b - a)
+        const walk = (matchsticks, sides, index, sideLen) => {
+          if (index === matchsticks.length) return true
+          const m = matchsticks[index]
+          for (let i = 0; i < 4; i++) {
+            sides[i] += m
+            if (
+              sides[i] <= sideLen &&
+              walk(matchsticks, sides, index + 1, sideLen)
+            ) {
+              return true
+            }
+            sides[i] -= m
+          }
+          return false
+        }
+
+        return walk(matchsticks, sides, 0, sideLen)
+      }
+    </script>
+  </body>
+</html>

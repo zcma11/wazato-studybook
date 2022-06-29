@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function makesquare(matchsticks) {
+        let circumference = 0
+        for (n of matchsticks) {
+          circumference += n
+        }
+
+        if (circumference % 4 !== 0 || matchsticks.length < 4) {
+          return false
+        }
+        const sideLen = circumference / 4
+        const len = matchsticks.length
+        const dp = Array(1 << len).fill(-1)
+        const status = 1 << len
+        dp[0] = 0
+        for (let i = 1; i < status; i++) {
+          for (let j = 0; j < len; j++) {
+            // if ((i & (1 << j)) === 0) {
+            //   continue
+            // }
+
+            const withoutJ = i & ~(1 << j)
+            if (dp[withoutJ] >= 0 && dp[withoutJ] + matchsticks[j] <= sideLen) {
+              dp[i] = (dp[withoutJ] + matchsticks[j]) % sideLen
+              break
+            }
+          }
+        }
+
+        return dp[status - 1] === 0
+      }
+    </script>
+  </body>
+</html>
