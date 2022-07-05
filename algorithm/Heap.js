@@ -50,7 +50,8 @@ class Heap {
   bubblingDown(index) {
       const { data } = this
       const last = this.size() - 1
-      while (true) {
+      const halfIndex = this.size() >> 1
+      while (index < halfIndex) {
           const left = index * 2 + 1
           const right = index * 2 + 2
           let parent = index

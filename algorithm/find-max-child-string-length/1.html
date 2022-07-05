@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 【求满足条件的最长子串的长度】
+// 给定一个字符串，只包含字母和数字，按要求找出字符串中最长（连续）子串的长度，字符字串本身是其最长子串，子串满足：
+// 1. 只包含 n 个字母（a~z,A~Z），其余必须是数字；
+// 2. 字母可以在子串的任意位置
+
+// 如果找不到满足要求的子串，则返回 -1.
+
+// 示例1
+// 子串：abc124acb
+// n=1
+// 输出：4
+
+// 示例2
+// 子串：abc124a2cb
+// n=1
+// 输出：5
+
+// 示例3
+// 子串：abc124a2cb
+// n=2
+// 输出：6
+
+/* 一 */
+// const a = (str, n) => {
+//   let maxLen = -1
+//   let Lcount = 0
+//   const reg = /[a-zA-Z]/
+//   let arr = ''
+//   for (let i = 0; i < str.length; i++) {
+//     const s = str[i]
+//     if (reg.test(s)) {
+//       Lcount++
+//       if (Lcount > n) {
+//         let j = 0
+//         for(; j < arr.length; j++) {
+//           if (reg.test(arr[j])) {
+//             break
+//           }
+//         }
+//         arr = arr.slice(j + 1)
+//         Lcount--
+//         // if (reg.test(arr[0])) {
+//         //   arr = arr.slice(1)
+//         // } else {
+//         //   Lcount = 1
+//         //   let j = 0
+          
+//         //   arr = arr.slice(j + 1)
+//         // }
+//       }
+//     }
+//     arr += s
+//     maxLen = Math.max(maxLen, arr.length)
+//   }
+
+//   return maxLen
+// }
+
+/* 二 */
+const a = (str, n) => {
+  let maxLen = -1
+  let firstL = []
+  let Lcount = 0
+  let left = 0
+  let right = 0
+  let reg = /[a-zA-Z]/
+  for (let i = 0; i < str.length; i++) {
+    const s = str[i]
+    if(reg.test(s)) {
+      Lcount++
+      if (Lcount > n) {
+        Lcount--
+        left = firstL.shift() + 1
+      }
+      firstL.push(i)
+      right = i
+    } else {
+      right = i
+    }
+    maxLen = Math.max(maxLen, right - left + 1)
+  }
+  return maxLen
+}
+
+/* 三 */
+// const a = (str, n) => {
+//   let arr = ''
+//   let reg = /[a-zA-Z]/
+//   let Lcount = 0
+//   let maxLen = -1
+//   for(let i = 0; i < str.length; i++) {
+//     arr = str[i]
+//     for(let j = i + 1; j < str.length; j++) {
+//       // 字母
+//       // 数量
+//       if (reg.test(str[j])) {
+//         Lcount++
+//         if (Lcount > n) {
+//           Lcount = 0
+//           break
+//         }
+//       }
+//       arr += str[j]
+//     }
+//     maxLen = Math.max(maxLen, arr.length - 1)
+//   }
+
+//   return maxLen
+// }
+
+;[
+  ['ab1c11a24b1', 1],
+  ['ab1c11a24b1', 2],
+  ['ab1c11a24b1', 3],
+  ['ab1c11a24b1', 4],
+  ['ab1c11a24b1', 5],
+  ['ab1c11a24b1', 6],
+[  "123abc11a24b12", 1   ],
+["123abc11a24b12", 2   ],
+["123abc11a24b12", 3   ],
+["123abc11a24b12", 4   ],
+["123abc11a24b12", 5   ],
+["123abc11a24b12", 6   ],
+["123abc11a24b12", 7],
+
+/* 
+123abc11a24b12 1 5
+123abc11a24b12 2 8
+123abc11a24b12 3 9
+123abc11a24b12 4 10
+123abc11a24b12 5 13
+123abc11a24b12 6 13
+123abc11a24b12 7 13
+*/
+].forEach(([str, n]) => {
+  console.log(str, n , a(str, n))
+})
+// console.log(a('ab1c11a24b1', 1))
+// console.log(a("123abc11a24b12", 4))
+// console.log(a('abc124acb', 1), a('abc124a2cb', 1), a('abc124a2cb', 2))
+// console.log(a('abc124a2cb', 2))
+
+/* 
+
+7
+8
+9
+10
+11
+11
+*/
+  </script>
+</body>
+</html>

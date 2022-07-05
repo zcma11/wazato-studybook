@@ -6,6 +6,13 @@ arr.push('foo') // error
 arr[4] // error
 ```
 
+元组转联合类型
+
+```ts
+type t = [1,2,3]
+type u = t[number]
+```
+
 枚举，像一个对象，里面每个 key 都代表一个递增的数。可以通过判断名字代替判断数字，更加语义化。还可以指定代表哪个数字，可以重复，但没什么意义，没指定的数字从最后指定的数字开始递增。还可以反过来通过数字拿到 key，比如
 
 ```ts
@@ -27,4 +34,17 @@ console.log(foo[0]) // 'a'
 if (foo.a > 0) {
   ...
 }
+```
+
+枚举转联合类型
+
+```ts
+enum foo {
+  a,
+  b,
+  c = 1,
+  d = 3,
+  e
+}
+type u = keyof typeof foo
 ```
